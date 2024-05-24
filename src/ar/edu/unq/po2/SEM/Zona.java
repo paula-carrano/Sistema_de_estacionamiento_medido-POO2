@@ -25,4 +25,12 @@ public class Zona {
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientos.add(estacionamiento);
 	}
+	
+	public List<PuntoDeVenta> getPuntosDeVenta() {
+		return puntosDeVenta;
+	}
+	
+	public List<Estacionamiento> getEstacionamientos() {
+		return estacionamientos;
+	}
 }
