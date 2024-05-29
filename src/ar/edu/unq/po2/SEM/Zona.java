@@ -17,6 +17,13 @@ public class Zona {
 		this.puntosDeVenta = new ArrayList<PuntoDeVenta>();
 	}
 	
+	public List<PuntoDeVenta> getPuntosDeVenta() {
+		return puntosDeVenta;
+	}
+	
+	public List<Estacionamiento> getEstacionamientos() {
+		return estacionamientos;
+	}
 	
 	public void addPuntoDeVenta(PuntoDeVenta puntoDeVenta) {
 		puntosDeVenta.add(puntoDeVenta);
@@ -26,11 +33,8 @@ public class Zona {
 		estacionamientos.add(estacionamiento);
 	}
 	
-	public List<PuntoDeVenta> getPuntosDeVenta() {
-		return puntosDeVenta;
-	}
-	
-	public List<Estacionamiento> getEstacionamientos() {
-		return estacionamientos;
+	//Indica si el punto de venta pasado por àrametros se encuentra en su lista
+	public boolean tieneAPuntoDeVenta(PuntoDeVenta puntoDeVenta) {
+		return this.puntosDeVenta.contains(puntoDeVenta);
 	}
 }
