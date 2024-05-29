@@ -30,7 +30,7 @@ class PuntoDeVentaTest {
 	@Test
 	void testRealizarCompraEnviaMensajeAddCompraASEM() {
 		
-		punto.realizarRecarga(0, null, null, 0, 0);
+		punto.realizarRecarga(0, 0, 0);
 		
 		verify(sistema, times(1)).addCompra(any(Compra.class));
 	}
@@ -39,7 +39,7 @@ class PuntoDeVentaTest {
 	@Test
 	void testcobrarEstacionamientoEnviaMensajeAddCompraASEM() {
 		
-		punto.cobrarEstacionamiento(0, null, null, null, 0, null);
+		punto.cobrarEstacionamiento(0, null, 0, null);
 		
 		verify(sistema, times(1)).addCompra(any(Compra.class));
 	}
@@ -48,7 +48,7 @@ class PuntoDeVentaTest {
 	@Test
 	void testcobrarEstacionamientoEnviaMensajeAddEstacionamientoAZonaASEM() {
 		
-		punto.cobrarEstacionamiento(0, null, null, null, 0, null);
+		punto.cobrarEstacionamiento(0, null, 0, null);
 		
 		verify(sistema, times(1)).addEstacionamientoAZona(any(ECompraPuntual.class), eq(punto));
 	}

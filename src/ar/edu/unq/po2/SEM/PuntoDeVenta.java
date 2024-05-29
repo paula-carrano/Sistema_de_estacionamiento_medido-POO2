@@ -14,14 +14,14 @@ public class PuntoDeVenta {
 	}
 	
 	//Le envia una CompraRecarga al SEM
-	public void realizarRecarga(int nroControl, LocalDate fecha, LocalTime hora, int celular, double monto) {
-		sistema.addCompra(new CompraRecarga(nroControl, fecha, hora, celular, monto));
+	public void realizarRecarga(int nroControl, int celular, double monto) {
+		sistema.addCompra(new CompraRecarga(nroControl, celular, monto));
 	}
 	
 	
 	//Le envia una CompraHoras y un ECompraPuntual al SEM
-	public void cobrarEstacionamiento(int nroControl, LocalDate fecha, LocalTime horaInicio, LocalTime horaFin, int cantHoras, String patente) {
-		sistema.addCompra(new CompraHoras(nroControl, fecha, horaInicio, cantHoras));
-		sistema.addEstacionamientoAZona(new ECompraPuntual(patente, horaInicio, horaFin, cantHoras), this);
+	public void cobrarEstacionamiento(int nroControl, LocalTime horaFin, int cantHoras, String patente) {
+		sistema.addCompra(new CompraHoras(nroControl, cantHoras));
+		sistema.addEstacionamientoAZona(new ECompraPuntual(patente, horaFin, cantHoras), this);
 	}
 }
