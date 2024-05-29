@@ -8,6 +8,11 @@ public class PuntoDeVenta {
 
 	private SEM sistema;
 	
+	
+	public PuntoDeVenta(SEM sistema) {
+		this.sistema = sistema;
+	}
+	
 	//Le envia una CompraRecarga al SEM
 	public void realizarRecarga(int nroControl, LocalDate fecha, LocalTime hora, int celular, double monto) {
 		sistema.addCompra(new CompraRecarga(nroControl, fecha, hora, celular, monto));
@@ -17,6 +22,6 @@ public class PuntoDeVenta {
 	//Le envia una CompraHoras y un ECompraPuntual al SEM
 	public void cobrarEstacionamiento(int nroControl, LocalDate fecha, LocalTime horaInicio, LocalTime horaFin, int cantHoras, String patente) {
 		sistema.addCompra(new CompraHoras(nroControl, fecha, horaInicio, cantHoras));
-		sistema.addEstacionamientoAZona(new ECompraPuntual(patente, horaInicio, horaFin, cantHoras));
+		sistema.addEstacionamientoAZona(new ECompraPuntual(patente, horaInicio, horaFin, cantHoras), this);
 	}
 }
