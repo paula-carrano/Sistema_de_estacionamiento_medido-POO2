@@ -2,7 +2,8 @@ package ar.edu.unq.po2.SEM;
 
 import java.util.ArrayList;
 import java.util.List;
-import ar.edu.unq.po2.estacionamiento.*;
+
+import ar.edu.unq.po2.Estacionamiento.*;
 
 public class Zona {
 	

@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ar.edu.unq.po2.estacionamiento.Estacionamiento;
+
+import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 
 class ZonaTest {
 	
@@ -53,5 +54,4 @@ class ZonaTest {
 		
 		assertTrue(zona.tieneAPuntoDeVenta(puntoDeVenta));
 	}
-
 }

@@ -9,7 +9,8 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ar.edu.unq.po2.estacionamiento.Estacionamiento;
+import ar.edu.unq.po2.Compra.*;
+import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 
 class SEMtest {
 	

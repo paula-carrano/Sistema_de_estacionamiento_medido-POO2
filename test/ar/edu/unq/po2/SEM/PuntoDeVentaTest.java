@@ -9,9 +9,9 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import ar.edu.unq.po2.estacionamiento.ECompraPuntual;
-import ar.edu.unq.po2.estacionamiento.Estacionamiento;
+import ar.edu.unq.po2.Compra.*;
+import ar.edu.unq.po2.Estacionamiento.ECompraPuntual;
+import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 
 class PuntoDeVentaTest {
 
@@ -30,7 +30,7 @@ class PuntoDeVentaTest {
 	@Test
 	void testRealizarCompraEnviaMensajeAddCompraASEM() {
 		
-		punto.realizarRecarga(0, 0, 0);
+		punto.realizarRecarga(0, 0, 0, punto);
 		
 		verify(sistema, times(1)).addCompra(any(Compra.class));
 	}
@@ -39,7 +39,7 @@ class PuntoDeVentaTest {
 	@Test
 	void testcobrarEstacionamientoEnviaMensajeAddCompraASEM() {
 		
-		punto.cobrarEstacionamiento(0, null, 0, null);
+		punto.cobrarEstacionamiento(0, null, 0, null, punto);
 		
 		verify(sistema, times(1)).addCompra(any(Compra.class));
 	}
@@ -48,7 +48,7 @@ class PuntoDeVentaTest {
 	@Test
 	void testcobrarEstacionamientoEnviaMensajeAddEstacionamientoAZonaASEM() {
 		
-		punto.cobrarEstacionamiento(0, null, 0, null);
+		punto.cobrarEstacionamiento(0, null, 0, null, punto);
 		
 		verify(sistema, times(1)).addEstacionamientoAZona(any(ECompraPuntual.class), eq(punto));
 	}
