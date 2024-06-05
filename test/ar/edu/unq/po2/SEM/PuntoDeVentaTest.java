@@ -15,14 +15,16 @@ import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 
 class PuntoDeVentaTest {
 
-	private SEM sistema;
 	private PuntoDeVenta punto;
+	private SEM sistema;
+	private AppUser app;
 	
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		
 		sistema = mock(SEM.class);
+		app = mock(AppUser.class);
 		punto = new PuntoDeVenta(sistema);
 	}
 
@@ -30,7 +32,9 @@ class PuntoDeVentaTest {
 	@Test
 	void testRealizarCompraEnviaMensajeAddCompraASEM() {
 		
-		punto.realizarRecarga(0, 0, 0, punto);
+		verify(sistema, times(0)).addCompra(any(Compra.class));
+		
+		punto.realizarRecarga(01, app, 500, punto);
 		
 		verify(sistema, times(1)).addCompra(any(Compra.class));
 	}
@@ -38,6 +42,8 @@ class PuntoDeVentaTest {
 	
 	@Test
 	void testcobrarEstacionamientoEnviaMensajeAddCompraASEM() {
+		
+		verify(sistema, times(0)).addCompra(any(Compra.class));
 		
 		punto.cobrarEstacionamiento(0, null, 0, null, punto);
 		
@@ -48,8 +54,10 @@ class PuntoDeVentaTest {
 	@Test
 	void testcobrarEstacionamientoEnviaMensajeAddEstacionamientoAZonaASEM() {
 		
+		verify(sistema, times(0)).addEstacionamiento(any(ECompraPuntual.class));
+		
 		punto.cobrarEstacionamiento(0, null, 0, null, punto);
 		
-		verify(sistema, times(1)).addEstacionamientoAZona(any(ECompraPuntual.class), eq(punto));
+		verify(sistema, times(1)).addEstacionamiento(any(ECompraPuntual.class));
 	}
 }

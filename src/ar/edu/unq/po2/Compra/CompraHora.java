@@ -1,8 +1,5 @@
 package ar.edu.unq.po2.Compra;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import ar.edu.unq.po2.SEM.PuntoDeVenta;
 
 public class CompraHora extends Compra{
@@ -21,6 +18,4 @@ public class CompraHora extends Compra{
 	private void setCantHoras(int c) {
 		this.cantHoras = c;
 	}
-
-
 }
