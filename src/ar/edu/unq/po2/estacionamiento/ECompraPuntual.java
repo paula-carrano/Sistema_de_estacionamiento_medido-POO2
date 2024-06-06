@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.estacionamiento;
+package ar.edu.unq.po2.Estacionamiento;
 
 import java.time.LocalTime;
 

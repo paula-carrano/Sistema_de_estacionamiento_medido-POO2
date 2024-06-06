@@ -1,33 +1,32 @@
 package ar.edu.unq.po2.SEM;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ar.edu.unq.po2.estacionamiento.Estacionamiento;
+import ar.edu.unq.po2.App.AppUser;
+import ar.edu.unq.po2.Compra.*;
+import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 
 class SEMtest {
 	
 	private SEM sistema;
-	private Zona zonaA;
-	private Zona zonaB;
+	private Zona zona;
 	private Estacionamiento estacionamiento;
-	private PuntoDeVenta punto;
 	private Compra compra;
+	private AppUser app;
 	
 
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		
+		app = mock(AppUser.class);
+		
 		sistema = new SEM();
-		zonaA = mock(Zona.class);
-		zonaB = mock(Zona.class);	
+	
 	}
 
 	
@@ -36,7 +35,7 @@ class SEMtest {
 		
 		assertTrue(sistema.getZonas().isEmpty());
 		
-		sistema.addZona(zonaA);
+		sistema.addZona(zona);
 		
 		assertEquals(sistema.getZonas().size(), 1);
 	}
@@ -50,26 +49,28 @@ class SEMtest {
 		sistema.addCompra(compra);
 		
 		assertEquals(sistema.getCompras().size(), 1);
-		
 	}
 	
 	
 	@Test
-	void testAddEstacionamientoAZonaQueTieneAPunto() {
+	void testAddEstacionamiento() {
 		
-		sistema.addZona(zonaA);
-		sistema.addZona(zonaB);
+		assertTrue(sistema.getEstacionamientos().isEmpty());
 		
-		assertTrue(zonaA.getEstacionamientos().isEmpty());
-		assertTrue(zonaB.getEstacionamientos().isEmpty());
+		sistema.addEstacionamiento(estacionamiento);
 		
-		when(zonaA.tieneAPuntoDeVenta(punto)).thenReturn(true);
-		when(zonaB.tieneAPuntoDeVenta(punto)).thenReturn(false);
+		assertEquals(sistema.getEstacionamientos().size(), 1);
+	}
+	
+	
+	@Test
+	void testRecibeUnaRecargaYNotificaALaAPP() {
+			
+		verify(app, times(0)).registrarSaldo(500);
 		
-		sistema.addEstacionamientoAZona(estacionamiento, punto);
+		sistema.notificarSaldo(app, 500);
 		
-		verify(zonaA, times(1)).addEstacionamiento(estacionamiento);
-		verify(zonaB, times(0)).addEstacionamiento(estacionamiento);
+		verify(app, times(1)).registrarSaldo(500);
 	}
 
 }

@@ -1,21 +1,24 @@
 package ar.edu.unq.po2.SEM;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import ar.edu.unq.po2.estacionamiento.*;
+import ar.edu.unq.po2.Estacionamiento.*;
+import ar.edu.unq.po2.App.AppUser;
+import ar.edu.unq.po2.Compra.*;
 
 public class SEM {
 	
 	private List<Compra> compras;
 	private List<Zona> zonas;
-	
+	private List<Estacionamiento> estacionamientos;
+	private double precioPorHora;
+	private LocalTime horaFin;
 	
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
 		this.zonas = new ArrayList<Zona>();
+		this.estacionamientos = new ArrayList<Estacionamiento>();
 	}
 
 	public List<Zona> getZonas() {
@@ -25,23 +28,25 @@ public class SEM {
 	public List<Compra> getCompras() {
 		return compras;
 	}
-
-	public void addCompra(Compra compra) {
-		compras.add(compra);
-	}
 	
-	public void addZona(Zona zona) {
-		zonas.add(zona);
-	}
-	
-	//Busca a la zona que le corresponde el estacionamiento y se lo envia 
-	public void addEstacionamientoAZona(Estacionamiento estacionamiento, PuntoDeVenta puntoDeVenta) {
-		Optional<Zona> zonaOptional = zonas.stream()
-                .filter(z -> z.tieneAPuntoDeVenta(puntoDeVenta))
-                .findFirst();
-		
-		Zona zona = zonaOptional.get();
-        zona.addEstacionamiento(estacionamiento);
+	public List<Estacionamiento> getEstacionamientos() {
+		return estacionamientos;
 	}
 
+	public void addCompra(Compra c) {
+		compras.add(c);
+	}
+	
+	public void addZona(Zona z) {
+		zonas.add(z);
+	}
+	
+	public void addEstacionamiento(Estacionamiento e) {
+		estacionamientos.add(e);
+	}
+
+	//Le envia un mensjae a la app con el saldo recarga
+	public void notificarSaldo(AppUser app, double monto) {
+		app.registrarSaldo(monto);
+	}
 }
