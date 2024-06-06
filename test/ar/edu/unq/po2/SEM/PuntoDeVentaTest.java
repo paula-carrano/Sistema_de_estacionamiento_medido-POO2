@@ -49,7 +49,7 @@ class PuntoDeVentaTest {
 		
 		verify(sistema, times(0)).addCompra(any(Compra.class));
 		
-		punto.cobrarEstacionamiento(02, null, 3, "ABC123");
+		punto.cobrarEstacionamiento(02, 3, "ABC123");
 		
 		verify(sistema, times(1)).addCompra(any(Compra.class));
 	}
@@ -60,7 +60,7 @@ class PuntoDeVentaTest {
 		
 		verify(sistema, times(0)).addEstacionamiento(any(ECompraPuntual.class));
 		
-		punto.cobrarEstacionamiento(02, null, 3, "ABC123");
+		punto.cobrarEstacionamiento(02, 3, "ABC123");
 		
 		verify(sistema, times(1)).addEstacionamiento(any(ECompraPuntual.class));
 	}

@@ -29,8 +29,8 @@ public class PuntoDeVenta {
 	
 	
 	//Le envia una CompraHoras y un ECompraPuntual al SEM
-	public void cobrarEstacionamiento(int nroControl, LocalTime horaFin, int cantHoras, String patente) {
+	public void cobrarEstacionamiento(int nroControl, int cantHoras, String patente) {
 		sistema.addCompra(new CompraHora(nroControl, cantHoras, this));
-		sistema.addEstacionamiento(new ECompraPuntual(patente, horaFin, cantHoras));
+		sistema.addEstacionamiento(new ECompraPuntual(patente, cantHoras));
 	}
 }
