@@ -1,6 +1,6 @@
 package ar.edu.unq.po2.Compra;
 
-import ar.edu.unq.po2.SEM.AppUser;
+import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.SEM.PuntoDeVenta;
 
 public class CompraRecarga extends Compra {

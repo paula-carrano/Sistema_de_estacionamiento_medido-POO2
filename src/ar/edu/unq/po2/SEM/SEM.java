@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.Estacionamiento.*;
+import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
 
 public class SEM {
@@ -42,5 +43,10 @@ public class SEM {
 	
 	public void addEstacionamiento(Estacionamiento e) {
 		estacionamientos.add(e);
+	}
+
+	//Le envia un mensjae a la app con el saldo recarga
+	public void notificarSaldo(AppUser app, double monto) {
+		app.registrarSaldo(monto);
 	}
 }

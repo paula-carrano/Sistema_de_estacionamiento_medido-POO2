@@ -1,8 +1,12 @@
 package ar.edu.unq.po2.SEM;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
 import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 
@@ -12,11 +16,14 @@ class SEMtest {
 	private Zona zona;
 	private Estacionamiento estacionamiento;
 	private Compra compra;
+	private AppUser app;
 	
 
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		
+		app = mock(AppUser.class);
 		
 		sistema = new SEM();
 	
@@ -42,7 +49,6 @@ class SEMtest {
 		sistema.addCompra(compra);
 		
 		assertEquals(sistema.getCompras().size(), 1);
-		
 	}
 	
 	
@@ -54,6 +60,17 @@ class SEMtest {
 		sistema.addEstacionamiento(estacionamiento);
 		
 		assertEquals(sistema.getEstacionamientos().size(), 1);
+	}
+	
+	
+	@Test
+	void testRecibeUnaRecargaYNotificaALaAPP() {
+			
+		verify(app, times(0)).registrarSaldo(500);
+		
+		sistema.notificarSaldo(app, 500);
+		
+		verify(app, times(1)).registrarSaldo(500);
 	}
 
 }
