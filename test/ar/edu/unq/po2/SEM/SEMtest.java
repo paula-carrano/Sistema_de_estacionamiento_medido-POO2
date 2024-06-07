@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ar.edu.unq.po2.App.AppUser;
@@ -23,6 +25,7 @@ class SEMtest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
+		estacionamiento = mock(Estacionamiento.class);
 		app = mock(AppUser.class);
 		
 		sistema = new SEM();
@@ -71,6 +74,21 @@ class SEMtest {
 		sistema.notificarSaldo(app, 500);
 		
 		verify(app, times(1)).registrarSaldo(500);
+	}
+	
+	
+	@Test
+	void testFinalizarTodosLosEstacionamientosVigentes() {
+		
+		sistema.addEstacionamiento(estacionamiento);
+		
+		when(estacionamiento.estaVigente()).thenReturn(true);
+		
+		assertTrue(sistema.getEstacionamientos().stream().allMatch(e -> e.estaVigente()));
+		
+		sistema.finalizarEstacionamientos();
+		
+		assertTrue(sistema.getEstacionamientos().stream().anyMatch(e -> e.estaVigente()));
 	}
 
 }
