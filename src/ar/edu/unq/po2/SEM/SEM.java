@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.Estacionamiento.*;
+import ar.edu.unq.po2.Inspector.Inspector;
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
 
@@ -56,5 +57,15 @@ public class SEM {
 		estacionamientos.stream()
 						.filter(e -> e.estaVigente())
 						.forEach(e -> e.finalizar(horaFin));
+	}
+
+	public boolean estacionamientoConVigencia(String patente) {
+		Estacionamiento estacionamientoAChequear= estacionamientos.stream().filter(e->e.getPatente().equals(patente)).findFirst().get();		
+				return estacionamientoAChequear.estaVigente();
+	}
+
+	public void generarInfraccion(String patente, Inspector inspector) {
+		// TODO Auto-generated method stub
+		
 	}
 }

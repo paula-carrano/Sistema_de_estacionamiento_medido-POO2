@@ -14,7 +14,7 @@ class ZonaTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		zona = new Zona();
+		zona = new Zona("z1");
 	}
 	
 	

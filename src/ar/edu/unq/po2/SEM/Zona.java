@@ -7,11 +7,13 @@ public class Zona {
 	
 	//private Inspector inspector;
 	private List<PuntoDeVenta> puntosDeVenta;
+	private String zonaID;
 	
 	
-	public Zona(/*Inspector i*/) {
+	public Zona(/*Inspector i*/String zonaID) {
 		//this.inspector = inspector;
 		this.puntosDeVenta = new ArrayList<PuntoDeVenta>();
+		this.zonaID=zonaID;
 	}
 	
 	
@@ -22,5 +24,9 @@ public class Zona {
 	
 	public void addPuntoDeVenta(PuntoDeVenta p) {
 		puntosDeVenta.add(p);
+	}
+	
+	public String getZonaID() {
+		return zonaID;
 	}
 }

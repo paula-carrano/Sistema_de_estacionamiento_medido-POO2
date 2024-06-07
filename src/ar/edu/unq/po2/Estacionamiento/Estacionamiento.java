@@ -32,6 +32,10 @@ public abstract class Estacionamiento {
 		return this.horaFin;
 	}
 	
+	public String getPatente() {
+		return patente;
+	}
+	
 	
 	//Indica si esta vigente 
 	public boolean estaVigente() {
