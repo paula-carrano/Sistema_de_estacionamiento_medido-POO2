@@ -1,9 +1,11 @@
 package ar.edu.unq.po2.SEM;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.Estacionamiento.*;
+import ar.edu.unq.po2.Inspector.Infraccion;
 import ar.edu.unq.po2.Inspector.Inspector;
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
@@ -64,8 +66,7 @@ public class SEM {
 				return estacionamientoAChequear.estaVigente();
 	}
 
-	public void generarInfraccion(String patente, Inspector inspector) {
-		// TODO Auto-generated method stub
-		
+	public Infraccion generarInfraccion(String patente, Inspector inspector) {
+		return new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, inspector.getZonaID());
 	}
 }
