@@ -84,11 +84,16 @@ public class SEM {
 	}
 
 	
-	public boolean estacionamientoConVigencia(String patente) {
-		Estacionamiento estacionamientoAChequear= estacionamientos.stream().filter(e->e.getPatente().equals(patente)).findFirst().get();		
-				return estacionamientoAChequear.estaVigente();
+	public boolean verificarEstacionamientoConVigencia(String patente) {		
+				return estacionamientoABuscar(patente).estaVigente();
 	}
-
+	
+	private Estacionamiento estacionamientoABuscar(String patente) {
+		return estacionamientos.stream()
+								.filter(e->e.getPatente()
+								.equals(patente)).findFirst().get();
+	}
+	
 	public Infraccion generarInfraccion(String patente, Inspector inspector) {
 		return new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, inspector.getZonaID());
 	}

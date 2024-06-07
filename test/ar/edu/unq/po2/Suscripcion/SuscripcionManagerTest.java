@@ -15,40 +15,40 @@ import org.junit.Test;
 public class SuscripcionManagerTest {
 
     private SuscripcionManager suscripcionManager;
-    private List<Entidad> entidadesMock;
+    private List<Suscriptor> suscriptoresMock;
 
     @Before
     public void setUp() {
         suscripcionManager = new SuscripcionManager();
-        entidadesMock = new ArrayList<>();
+        suscriptoresMock = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            entidadesMock.add(mock(Entidad.class));
+            suscriptoresMock.add(mock(Suscriptor.class));
         }
     }
 
     @Test
     public void testSuscribirEntidad() {
-        suscripcionManager.suscribirEntidad(entidadesMock.get(0));
-        assertTrue(suscripcionManager.getEntidades().contains(entidadesMock.get(0)));
+        suscripcionManager.agregarSuscriptor(suscriptoresMock.get(0));
+        assertTrue(suscripcionManager.getSuscriptores().contains(suscriptoresMock.get(0)));
     }
 
     @Test
     public void testDesuscribirEntidad() {
-        suscripcionManager.suscribirEntidad(entidadesMock.get(0));
-        suscripcionManager.suscribirEntidad(entidadesMock.get(1));
-        suscripcionManager.desuscribirEntidad(entidadesMock.get(0));
-        assertFalse(suscripcionManager.getEntidades().contains(entidadesMock.get(0)));
-        assertTrue(suscripcionManager.getEntidades().contains(entidadesMock.get(1)));
+        suscripcionManager.agregarSuscriptor(suscriptoresMock.get(0));
+        suscripcionManager.agregarSuscriptor(suscriptoresMock.get(1));
+        suscripcionManager.removerSuscriptor(suscriptoresMock.get(0));
+        assertFalse(suscripcionManager.getSuscriptores().contains(suscriptoresMock.get(0)));
+        assertTrue(suscripcionManager.getSuscriptores().contains(suscriptoresMock.get(1)));
     }
 
     @Test
     public void testNotificar() {
-        for (Entidad entidad : entidadesMock) {
-            suscripcionManager.suscribirEntidad(entidad);
+        for (Suscriptor suscriptor : suscriptoresMock) {
+            suscripcionManager.agregarSuscriptor(suscriptor);
         }
         suscripcionManager.notificar();
-        for (Entidad entidad : entidadesMock) {
-            verify(entidad).actualizar();
+        for (Suscriptor suscriptor : suscriptoresMock) {
+            verify(suscriptor).actualizar();
         }
     }
 }

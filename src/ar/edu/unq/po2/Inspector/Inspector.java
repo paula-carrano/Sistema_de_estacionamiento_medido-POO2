@@ -20,7 +20,7 @@ public class Inspector {
     }
 
     public boolean verificarEstacionamiento(String patente) {
-        return sistema.estacionamientoConVigencia(patente);
+        return sistema.verificarEstacionamientoConVigencia(patente);
     }
 
     // Getters y setters

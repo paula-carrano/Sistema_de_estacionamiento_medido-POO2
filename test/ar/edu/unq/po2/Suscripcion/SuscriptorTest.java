@@ -6,12 +6,12 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 
-public class EntidadTest {
+public class SuscriptorTest {
 
     @Test
     public void testActualizar() {
-        Entidad entidadMock = mock(Entidad.class);
-        entidadMock.actualizar();
-        verify(entidadMock).actualizar();
+        Suscriptor suscriptorMock = mock(Suscriptor.class);
+        suscriptorMock.actualizar();
+        verify(suscriptorMock).actualizar();
     }
 }
