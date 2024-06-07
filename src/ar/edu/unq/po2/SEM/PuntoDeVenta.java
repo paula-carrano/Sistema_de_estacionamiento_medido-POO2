@@ -10,14 +10,14 @@ public class PuntoDeVenta {
 	private SEM sistema;
 	
 	//Constructor
-	public PuntoDeVenta(SEM s) {
-		this.setSistema(s);;
+	public PuntoDeVenta(SEM sistema) {
+		this.setSistema(sistema);
 	}
 	
 	
 	//Setters
-	private void setSistema(SEM s) {
-		this.sistema = s;
+	private void setSistema(SEM sistema) {
+		this.sistema = sistema;
 	}
 	
 	

@@ -16,15 +16,34 @@ public class SEM {
 	private List<Zona> zonas;
 	private List<Estacionamiento> estacionamientos;
 	private double precioPorHora;
+	private LocalTime horaInicio;
 	private LocalTime horaFin;
 	
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
 		this.zonas = new ArrayList<Zona>();
 		this.estacionamientos = new ArrayList<Estacionamiento>();
-		this.horaFin = LocalTime.of(20, 00);
+		this.setHoraInicio(LocalTime.of(07,00));
+		this.setHoraFin(LocalTime.of(20,00));
+		this.setPrecioPorHora(40);
 	}
+	
+	
+	//Setters
+	public void setHoraInicio(LocalTime horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+	
+	public void setHoraFin(LocalTime horaFin) {
+		this.horaFin = horaFin;
+	}
+	
+	public void setPrecioPorHora(double precioPorHora) {
+		this.precioPorHora = precioPorHora;
+	}
+	
 
+	//Getters
 	public List<Zona> getZonas() {
 		return zonas;
 	}
@@ -37,16 +56,16 @@ public class SEM {
 		return estacionamientos;
 	}
 
-	public void addCompra(Compra c) {
-		compras.add(c);
+	public void addCompra(Compra compra) {
+		compras.add(compra);
 	}
 	
-	public void addZona(Zona z) {
-		zonas.add(z);
+	public void addZona(Zona zona) {
+		zonas.add(zona);
 	}
 	
-	public void addEstacionamiento(Estacionamiento e) {
-		estacionamientos.add(e);
+	public void addEstacionamiento(Estacionamiento estacionamiento) {
+		estacionamientos.add(estacionamiento);
 	}
 
 	//Le envia un mensjae a la app con el saldo recarga

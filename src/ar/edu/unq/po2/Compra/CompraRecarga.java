@@ -10,19 +10,19 @@ public class CompraRecarga extends Compra {
 	private double monto;
 	
 	// Constructor.
-	public CompraRecarga(int n, AppUser a, double m, PuntoDeVenta p) {
-		this.setNroControl(n);
-		this.setApp(a);
-		this.setMonto(m);
-		this.setPunto(p);
+	public CompraRecarga(int nroControl, AppUser app, double monto, PuntoDeVenta punto) {
+		this.setNroControl(nroControl);
+		this.setApp(app);
+		this.setMonto(monto);
+		this.setPunto(punto);
 	}
 	
 	// Setters.
-	private void setApp(AppUser a) {
-		this.app = a;
+	private void setApp(AppUser app) {
+		this.app = app;
 	}
 	
-	private void setMonto(double m) {
-		this.monto = m;
+	private void setMonto(double monto) {
+		this.monto = monto;
 	}
 }
