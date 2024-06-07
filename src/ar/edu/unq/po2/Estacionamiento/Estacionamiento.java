@@ -12,4 +12,10 @@ public abstract class Estacionamiento {
 	protected void setPatente(String p) {
 		this.patente = p;
 	}
+	
+	
+	//Getters
+	public LocalTime getHoraInicio() {
+		return this.horaInicio;
+	}
 }
