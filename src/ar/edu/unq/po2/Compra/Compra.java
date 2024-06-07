@@ -9,8 +9,8 @@ public abstract class Compra {
 
 	// Atributos.
 	private int nroControl;
-	private LocalDate fecha = LocalDate.now();
-	private LocalTime hora = LocalTime.now();
+	private LocalDate fecha;
+	private LocalTime hora;
 	private PuntoDeVenta punto;
 	
 	// Setters.
