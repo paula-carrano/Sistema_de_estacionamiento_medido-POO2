@@ -7,6 +7,7 @@ import java.util.List;
 import ar.edu.unq.po2.Estacionamiento.*;
 import ar.edu.unq.po2.Inspector.Infraccion;
 import ar.edu.unq.po2.Inspector.Inspector;
+import ar.edu.unq.po2.Suscripcion.SuscripcionManager;
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
 
@@ -18,6 +19,7 @@ public class SEM {
 	private double precioPorHora;
 	private LocalTime horaInicio;
 	private LocalTime horaFin;
+	private SuscripcionManager suscripcionManager;
 	
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
@@ -26,6 +28,7 @@ public class SEM {
 		this.setHoraInicio(LocalTime.of(07,00));
 		this.setHoraFin(LocalTime.of(20,00));
 		this.setPrecioPorHora(40);
+		this.suscripcionManager= new SuscripcionManager();
 	}
 	
 	
@@ -80,6 +83,7 @@ public class SEM {
 						.forEach(e -> e.finalizar(horaFin));
 	}
 
+	
 	public boolean estacionamientoConVigencia(String patente) {
 		Estacionamiento estacionamientoAChequear= estacionamientos.stream().filter(e->e.getPatente().equals(patente)).findFirst().get();		
 				return estacionamientoAChequear.estaVigente();
