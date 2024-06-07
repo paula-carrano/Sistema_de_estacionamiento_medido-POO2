@@ -4,7 +4,6 @@ import java.time.LocalTime;
 
 public class ECompraPuntual extends Estacionamiento{
 	
-	private LocalTime hortaFin;
 	private int horasCompradas;
 	
 	
@@ -12,7 +11,7 @@ public class ECompraPuntual extends Estacionamiento{
 		this.setPatente(p);
 		this.setHoarsCompradas(h);
 		this.setHoraInicio(LocalTime.now());
-		this.horaFin();
+		this.setHoraFin(this.calcularHoraFin());
 	}
 
 	//Setters
@@ -20,13 +19,9 @@ public class ECompraPuntual extends Estacionamiento{
 		this.horasCompradas = cant;
 	}
 	
-	private void setHoraInicio(LocalTime h) {
-		this.horaInicio = h;
-	}
-	
 	
 	//Calcula la hora de fin a partir de la hora de inicio y la cantidad de horas compradas
-	public LocalTime horaFin() {
+	public LocalTime calcularHoraFin() {
 		return this.horaInicio.plusHours(horasCompradas);
 	}
 }

@@ -19,6 +19,7 @@ public class SEM {
 		this.compras = new ArrayList<Compra>();
 		this.zonas = new ArrayList<Zona>();
 		this.estacionamientos = new ArrayList<Estacionamiento>();
+		this.horaFin = LocalTime.of(20, 00);
 	}
 
 	public List<Zona> getZonas() {
@@ -48,5 +49,12 @@ public class SEM {
 	//Le envia un mensjae a la app con el saldo recarga
 	public void notificarSaldo(AppUser app, double monto) {
 		app.registrarSaldo(monto);
+	}
+	
+	//A las 8:00pm finaliza todos los estacionamientos vigentes
+	public void finalizarEstacionamientos() {
+		estacionamientos.stream()
+						.filter(e -> e.estaVigente())
+						.forEach(e -> e.finalizar(horaFin));
 	}
 }
