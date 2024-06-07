@@ -8,16 +8,16 @@ public class EAplicacion extends Estacionamiento{
 
 	private AppUser app;
 	
-	public EAplicacion(String p, AppUser a) {
-		this.setPatente(p);
-		this.setApp(a);
+	public EAplicacion(String patente, AppUser app) {
+		this.setPatente(patente);
+		this.setApp(app);
 		this.setHoraInicio(LocalTime.now());
 	}
 	
 	
 	//Setters
-	private void setApp(AppUser a) {
-		this.app = a;
+	private void setApp(AppUser app) {
+		this.app = app;
 	}
 
 	//Settea la hora de fin

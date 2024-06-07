@@ -9,20 +9,20 @@ public class AppUser {
 	private double saldo;
 	
 	//Constructor
-	public AppUser(String p, SEM s) {
-		this.setPatente(p);
-		this.setSistema(s);
+	public AppUser(String patente, SEM sistema) {
+		this.setPatente(patente);
+		this.setSistema(sistema);
 		this.saldo = 0;
 	}
 	
 	
 	//Setters
-	private void setPatente(String p) {
-		this.patente = p;
+	private void setPatente(String patente) {
+		this.patente = patente;
 	}
 	
-	private void setSistema(SEM s) {
-		this.sistema = s;
+	private void setSistema(SEM sistema) {
+		this.sistema = sistema;
 	}
 	
 	

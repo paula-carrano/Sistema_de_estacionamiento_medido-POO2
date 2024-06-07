@@ -10,16 +10,16 @@ public abstract class Estacionamiento {
 	
 	
 	//Setters
-	protected void setPatente(String p) {
-		this.patente = p;
+	protected void setPatente(String patente) {
+		this.patente = patente;
 	}
 	
-	protected void setHoraInicio(LocalTime h) {
-		this.horaInicio = h;
+	protected void setHoraInicio(LocalTime horaInicio) {
+		this.horaInicio = horaInicio;
 	}
 	
-	protected void setHoraFin(LocalTime h) {
-		this.horaFin = h;
+	protected void setHoraFin(LocalTime horaFin) {
+		this.horaFin = horaFin;
 	}
 	
 	

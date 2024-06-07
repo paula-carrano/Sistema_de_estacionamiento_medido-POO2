@@ -14,12 +14,12 @@ public abstract class Compra {
 	private PuntoDeVenta punto;
 	
 	// Setters.
-	protected void setNroControl(int n) {
-		this.nroControl = n;
+	protected void setNroControl(int nroControl) {
+		this.nroControl = nroControl;
 	}
 	
-	protected void setPunto(PuntoDeVenta p) {
-		this.punto = p;
+	protected void setPunto(PuntoDeVenta punto) {
+		this.punto = punto;
 	}
 	
 }

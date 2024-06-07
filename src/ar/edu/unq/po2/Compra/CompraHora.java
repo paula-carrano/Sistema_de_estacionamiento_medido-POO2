@@ -8,10 +8,10 @@ public class CompraHora extends Compra{
 	private int cantHoras;
 	
 	// Constructor.
-	public CompraHora(int n, int c, PuntoDeVenta p) {
-		this.setNroControl(n);
-		this.setCantHoras(c);
-		this.setPunto(p);
+	public CompraHora(int nroControl, int cantHoras, PuntoDeVenta punto) {
+		this.setNroControl(nroControl);
+		this.setCantHoras(cantHoras);
+		this.setPunto(punto);
 	}
 	
 	// Setter.

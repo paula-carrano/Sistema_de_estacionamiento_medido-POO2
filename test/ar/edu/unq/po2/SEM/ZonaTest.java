@@ -4,17 +4,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.po2.Inspector.Inspector;
+
 
 class ZonaTest {
 	
 	private Zona zona;
 	private PuntoDeVenta puntoDeVenta;
+	private Inspector inspector;
 	
 
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		zona = new Zona("z1");
+		zona = new Zona(inspector, "z1");
 	}
 	
 	

@@ -6,17 +6,16 @@ public class ECompraPuntual extends Estacionamiento{
 	
 	private int horasCompradas;
 	
-	
-	public ECompraPuntual(String p, int h) {
-		this.setPatente(p);
-		this.setHoarsCompradas(h);
+	public ECompraPuntual(String patente, int horasCompradas) {
+		this.setPatente(patente);
+		this.setHoarsCompradas(horasCompradas);
 		this.setHoraInicio(LocalTime.now());
 		this.setHoraFin(this.calcularHoraFin());
 	}
 
 	//Setters
-	private void setHoarsCompradas(int cant) {
-		this.horasCompradas = cant;
+	private void setHoarsCompradas(int horasCompradas) {
+		this.horasCompradas = horasCompradas;
 	}
 	
 	
