@@ -22,4 +22,12 @@ public abstract class Compra {
 		this.punto = punto;
 	}
 	
+	protected void setHora(LocalTime hora) {
+		this.hora = hora;
+	}
+	
+	protected void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+	
 }

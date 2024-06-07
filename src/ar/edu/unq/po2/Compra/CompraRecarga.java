@@ -1,5 +1,8 @@
 package ar.edu.unq.po2.Compra;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.SEM.PuntoDeVenta;
 
@@ -10,8 +13,12 @@ public class CompraRecarga extends Compra {
 	private double monto;
 	
 	// Constructor.
-	public CompraRecarga(int nroControl, AppUser app, double monto, PuntoDeVenta punto) {
+	public CompraRecarga(int nroControl, 
+			AppUser app, double monto, 
+			PuntoDeVenta punto) {
 		this.setNroControl(nroControl);
+		this.setHora(LocalTime.now());
+		this.setFecha(LocalDate.now());
 		this.setApp(app);
 		this.setMonto(monto);
 		this.setPunto(punto);
