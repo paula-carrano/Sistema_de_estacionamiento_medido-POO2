@@ -16,9 +16,9 @@ public class CompraRecarga extends Compra {
 	public CompraRecarga(int nroControl, 
 			AppUser app, double monto, 
 			PuntoDeVenta punto) {
-		this.setNroControl(nroControl);
 		this.setHora(LocalTime.now());
 		this.setFecha(LocalDate.now());
+		this.setNroControl(nroControl);
 		this.setApp(app);
 		this.setMonto(monto);
 		this.setPunto(punto);
@@ -31,5 +31,9 @@ public class CompraRecarga extends Compra {
 	
 	private void setMonto(double monto) {
 		this.monto = monto;
+	}
+	
+	public double getMonto() {
+		return(this.monto);
 	}
 }

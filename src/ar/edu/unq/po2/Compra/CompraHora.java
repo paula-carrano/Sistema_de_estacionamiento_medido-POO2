@@ -24,4 +24,8 @@ public class CompraHora extends Compra{
 	private void setCantHoras(int c) {
 		this.cantHoras = c;
 	}
+	
+	public int getCantHoras() {
+		return(this.cantHoras);
+	}
 }
