@@ -25,6 +25,7 @@
 	        hora = LocalTime.of(14, 30);
 	        patente = "ABC123";
 	        zonaID = "Zona1";
+	        
 	        // Crear un mock de Inspector
 	        inspectorMock = mock(Inspector.class);
 	        when(inspectorMock.getInspectorID()).thenReturn("123");
@@ -63,13 +64,13 @@
 	        LocalTime hora = LocalTime.of(12, 0);
 	        
 	        // Crear la infracción usando el mock de Inspector
-	        Infraccion infraccion = new Infraccion(fecha, hora, inspectorMock, "ABC123", "Zona1");
+	        Infraccion infraccion = new Infraccion(fecha, hora, inspectorMock, "ABC123", inspectorMock.getZonaID());
 	
 	        // Verificar las propiedades de la infracción
 	        assertEquals(fecha, infraccion.getFecha());
 	        assertEquals(hora, infraccion.getHora());
 	        assertEquals(inspectorMock, infraccion.getInspector());
 	        assertEquals("ABC123", infraccion.getPatente());
-	        assertEquals("Zona1", infraccion.getZonaID());
+	        assertEquals(inspectorMock.getZonaID(), infraccion.getZonaID());
 	    }
 	}
