@@ -12,13 +12,14 @@ class InspectorTest {
 
     private Inspector inspector;
     private SEM sistemaMock;
-    private Zona zona;
+    private Zona zonaMock;
 
     @BeforeEach
     public void setUp() {
         sistemaMock = mock(SEM.class);
-        zona = new Zona("Zona1");
-        inspector = new Inspector("123", zona, sistemaMock);
+        zonaMock = mock(Zona.class);
+        when(zonaMock.getZonaID()).thenReturn("Zona1");
+        inspector = new Inspector("123", zonaMock, sistemaMock);
     }
 
     @Test
@@ -34,11 +35,19 @@ class InspectorTest {
     }
 
     @Test
-    public void testReportarInfraccion() {
-        when(sistemaMock.estacionamientoConVigencia("XYZ789")).thenReturn(false);
-        inspector.altaInfraccion("XYZ789");
-        verify(sistemaMock).estacionamientoConVigencia("XYZ789");       
-       
+    public void testAltaInfraccionGeneratesInfraccion() {
+        String patente = "XYZ789";
+        when(sistemaMock.estacionamientoConVigencia(patente)).thenReturn(false);
+        inspector.altaInfraccion(patente);
+        verify(sistemaMock).generarInfraccion(patente, inspector);
+    }
+
+    @Test
+    public void testAltaInfraccionDoesNotGenerateInfraccion() {
+        String patente = "ABC123";
+        when(sistemaMock.estacionamientoConVigencia(patente)).thenReturn(true);
+        inspector.altaInfraccion(patente);
+        verify(sistemaMock, never()).generarInfraccion(anyString(), any(Inspector.class));
     }
 
     @Test
@@ -48,7 +57,7 @@ class InspectorTest {
 
     @Test
     public void testGetZona() {
-        assertEquals(zona.getZonaID(), inspector.getZonaID());
+        assertEquals("Zona1", inspector.getZonaID());
     }
 
     @Test
