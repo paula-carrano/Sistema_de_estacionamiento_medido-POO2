@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SuscripcionManager {
-	private List<Entidad> entidades;
+	private List<Suscriptor> suscriptores;
 	
 	public SuscripcionManager() {
-		this.entidades= new ArrayList<Entidad>();
+		this.suscriptores= new ArrayList<Suscriptor>();
 	}
 	
-	public void suscribirEntidad(Entidad entidad) {
-		entidades.add(entidad);
+	public void agregarSuscriptor(Suscriptor suscriptor) {
+		suscriptores.add(suscriptor);
 	}
 	
-	public void desuscribirEntidad(Entidad entidad) {
-		entidades.remove(entidad);
+	public void removerSuscriptor(Suscriptor suscriptor) {
+		suscriptores.remove(suscriptor);
 	}
 	
 	public void notificar() {
-		entidades.forEach(entidad-> entidad.actualizar());
+		suscriptores.forEach(suscriptor-> suscriptor.actualizar());
 	}
 	
-	public List<Entidad> getEntidades(){
-		return entidades;
+	public List<Suscriptor> getSuscriptores(){
+		return suscriptores;
 	}
 }

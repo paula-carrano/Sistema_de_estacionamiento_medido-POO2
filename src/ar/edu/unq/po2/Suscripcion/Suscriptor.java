@@ -1,6 +1,6 @@
 package ar.edu.unq.po2.Suscripcion;
 
-public interface Entidad {
+public interface Suscriptor {
 	public void actualizar();
 
 }

@@ -24,20 +24,20 @@ class InspectorTest {
 
     @Test
     public void testVerificarEstacionamientoSinEstacionamiento() {
-        when(sistemaMock.estacionamientoConVigencia("ABC123")).thenReturn(false);
+        when(sistemaMock.verificarEstacionamientoConVigencia("ABC123")).thenReturn(false);
         assertFalse(inspector.verificarEstacionamiento("ABC123"));
     }
 
     @Test
     public void testVerificarEstacionamientoConEstacionamiento() {
-        when(sistemaMock.estacionamientoConVigencia("ABC123")).thenReturn(true);
+        when(sistemaMock.verificarEstacionamientoConVigencia("ABC123")).thenReturn(true);
         assertTrue(inspector.verificarEstacionamiento("ABC123"));
     }
 
     @Test
     public void testAltaInfraccionGeneratesInfraccion() {
         String patente = "XYZ789";
-        when(sistemaMock.estacionamientoConVigencia(patente)).thenReturn(false);
+        when(sistemaMock.verificarEstacionamientoConVigencia(patente)).thenReturn(false);
         inspector.altaInfraccion(patente);
         verify(sistemaMock).generarInfraccion(patente, inspector);
     }
@@ -45,7 +45,7 @@ class InspectorTest {
     @Test
     public void testAltaInfraccionDoesNotGenerateInfraccion() {
         String patente = "ABC123";
-        when(sistemaMock.estacionamientoConVigencia(patente)).thenReturn(true);
+        when(sistemaMock.verificarEstacionamientoConVigencia(patente)).thenReturn(true);
         inspector.altaInfraccion(patente);
         verify(sistemaMock, never()).generarInfraccion(anyString(), any(Inspector.class));
     }
