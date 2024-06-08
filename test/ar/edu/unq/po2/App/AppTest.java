@@ -1,6 +1,8 @@
 package ar.edu.unq.po2.App;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
 import ar.edu.unq.po2.SEM.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,11 +11,12 @@ class AppTest {
 
 	private AppUser app;
 	private SEM sistema;
+	private Modo modo;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		
-		app = new AppUser("ABC123", sistema);
+		modo = mock(Automatico.class);
+		app  = new AppUser("ABC123", sistema, modo);
 	}
 
 	
