@@ -11,9 +11,10 @@ public class AppUser implements MovementSensor{
 	private Modo modo;
 	
 	//Constructor
-	public AppUser(String patente, SEM sistema) {
+	public AppUser(String patente, SEM sistema, Modo modo) {
 		this.setPatente(patente);
 		this.setSistema(sistema);
+		this.setModo(modo);
 		this.saldo = 0;
 	}
 	
@@ -27,6 +28,9 @@ public class AppUser implements MovementSensor{
 		this.sistema = sistema;
 	}
 	
+	public void setModo(Modo modo2) {
+		this.modo = modo2;
+	}
 	
 	//Getters
 	public double getSaldo() {
