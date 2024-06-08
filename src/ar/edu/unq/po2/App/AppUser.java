@@ -2,7 +2,7 @@ package ar.edu.unq.po2.App;
 
 import ar.edu.unq.po2.SEM.SEM;
 
-public class AppUser {
+public class AppUser implements MovementSensor{
 	
 	private String patente;
 	private SEM sistema;
@@ -35,5 +35,17 @@ public class AppUser {
 	//Suma el saldo recargado
 	public void registrarSaldo(double monto) {
 		this.saldo = saldo + monto;
+	}
+
+	@Override
+	public void driving() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void walking() {
+		// TODO Auto-generated method stub
+		
 	}
 }
