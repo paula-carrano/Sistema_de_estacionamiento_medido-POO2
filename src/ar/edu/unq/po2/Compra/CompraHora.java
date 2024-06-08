@@ -11,12 +11,12 @@ public class CompraHora extends Compra{
 	private int cantHoras;
 	
 	// Constructor.
-	public CompraHora(int nroControl, int cantHoras, 
+	public CompraHora(int control, int horas, 
 			PuntoDeVenta punto) {
 		this.setFecha(LocalDate.now());
 		this.setHora(LocalTime.now());
-		this.setNroControl(nroControl);
-		this.setCantHoras(cantHoras);
+		this.setNroControl(control);
+		this.setCantHoras(horas);
 		this.setPunto(punto);
 	}
 	
