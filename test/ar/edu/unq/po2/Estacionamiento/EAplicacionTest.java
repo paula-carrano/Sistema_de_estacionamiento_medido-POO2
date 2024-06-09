@@ -51,4 +51,38 @@ class EAplicacionTest {
 		assertFalse(est.estaVigente(LocalTime.of(14,00)));
 		assertEquals(est.getHoraFin(), LocalTime.of(14, 00));
 	}
+
+
+	@Test
+	void testEstacionamientoInicioExactoNoVigente() {
+    est.setHoraInicio(LocalTime.of(13, 0));
+    est.setHoraFin(LocalTime.of(16, 0));
+
+    assertFalse(est.estaVigente(LocalTime.of(13, 0)));
+	}
+
+	@Test
+	void testEstacionamientoFinExactoNoVigente() {
+    est.setHoraInicio(LocalTime.of(13, 0));
+    est.setHoraFin(LocalTime.of(16, 0));
+
+    assertFalse(est.estaVigente(LocalTime.of(16, 0)));
+	}
+
+	@Test
+	void testEstacionamientoAntesDeInicioNoVigente() {
+    est.setHoraInicio(LocalTime.of(13, 0));
+    est.setHoraFin(LocalTime.of(16, 0));
+
+    assertFalse(est.estaVigente(LocalTime.of(12, 59)));
+	}
+
+	@Test
+	void testEstacionamientoDespuesDeFinNoVigente() {
+    est.setHoraInicio(LocalTime.of(13, 0));
+    est.setHoraFin(LocalTime.of(16, 0));
+
+    assertFalse(est.estaVigente(LocalTime.of(16, 1)));
+	}
+
 }
