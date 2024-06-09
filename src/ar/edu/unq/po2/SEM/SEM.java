@@ -79,13 +79,13 @@ public class SEM {
 	//A las 8:00pm finaliza todos los estacionamientos vigentes
 	public void finalizarEstacionamientos() {
 		estacionamientos.stream()
-						.filter(e -> e.estaVigente())
+						.filter(e -> e.estaVigente(LocalTime.now()))
 						.forEach(e -> e.finalizar(horaFin));
 	}
 
 	
 	public boolean verificarEstacionamientoConVigencia(String patente) {		
-				return estacionamientoABuscar(patente).estaVigente();
+				return estacionamientoABuscar(patente).estaVigente(LocalTime.now());
 	}
 	
 	private Estacionamiento estacionamientoABuscar(String patente) {

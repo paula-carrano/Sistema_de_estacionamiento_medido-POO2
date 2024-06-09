@@ -6,6 +6,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalTime;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ar.edu.unq.po2.App.AppUser;
@@ -82,13 +84,13 @@ class SEMtest {
 		
 		sistema.addEstacionamiento(estacionamiento);
 		
-		when(estacionamiento.estaVigente()).thenReturn(true);
+		when(estacionamiento.estaVigente(LocalTime.of(20, 00))).thenReturn(true);
 		
-		assertTrue(sistema.getEstacionamientos().stream().allMatch(e -> e.estaVigente()));
+		assertTrue(sistema.getEstacionamientos().stream().allMatch(e -> e.estaVigente(LocalTime.of(20, 00))));
 		
 		sistema.finalizarEstacionamientos();
 		
-		assertTrue(sistema.getEstacionamientos().stream().anyMatch(e -> e.estaVigente()));
+		assertTrue(sistema.getEstacionamientos().stream().anyMatch(e -> e.estaVigente(LocalTime.of(20, 00))));
 	}
 
 }

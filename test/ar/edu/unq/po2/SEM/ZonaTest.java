@@ -22,6 +22,13 @@ class ZonaTest {
 	
 	
 	@Test
+	void testGetZonaID() {
+		
+		assertEquals(zona.getZonaID(), "z1");
+	}
+	
+	
+	@Test
 	void testAddPuntoDeVenta() {
 		
 		assertTrue(zona.getPuntosDeVenta().isEmpty());

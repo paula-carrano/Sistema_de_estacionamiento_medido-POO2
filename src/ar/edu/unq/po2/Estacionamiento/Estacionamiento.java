@@ -38,13 +38,10 @@ public abstract class Estacionamiento {
 	
 	
 	//Indica si esta vigente 
-	public boolean estaVigente() {
-		LocalTime horaActual = LocalTime.now();
+	public boolean estaVigente(LocalTime horaActual) {
         return horaActual.isAfter(this.getHoraInicio()) && horaActual.isBefore(this.getHoraFin());
 	}
 	
 	
-	public void finalizar(LocalTime hora) {
-		
-	}
+	public void finalizar(LocalTime hora) {}
 }
