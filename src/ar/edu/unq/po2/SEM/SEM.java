@@ -95,7 +95,7 @@ public class SEM {
 						.forEach(e -> e.finalizar(horaFin));
 	}
 	
-	//Indica si la patente pasada por parametros tiene un estacionamiuento vigente
+	//Indica si la patente pasada por parametros tiene un estacionamiento vigente
 	public boolean verificarEstacionamientoConVigencia(String patente) {		
 				return estacionamientoABuscar(patente).estaVigente(LocalTime.now());
 	}
@@ -118,4 +118,5 @@ public class SEM {
 							   .filter(e -> e.estaVigente(LocalTime.now()))
 							   .collect(Collectors.toList());
 	}
+	
 }

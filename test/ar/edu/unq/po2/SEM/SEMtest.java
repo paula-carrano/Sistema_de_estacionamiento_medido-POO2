@@ -110,5 +110,5 @@ class SEMtest {
 		
 		assertEquals(sistema.getInfracciones().size(), 1);
 	}
-
+	
 }
