@@ -5,4 +5,5 @@ public interface MovementSensor {
 	// Protocolo.
 	public void driving();
 	public void walking();
+	
 }

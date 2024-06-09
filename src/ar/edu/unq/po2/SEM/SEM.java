@@ -20,6 +20,7 @@ public class SEM {
 	private LocalTime horaInicio;
 	private LocalTime horaFin;
 	private SuscripcionManager suscripcionManager;
+	private List<Infraccion> infracciones;
 	
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
@@ -29,6 +30,7 @@ public class SEM {
 		this.setHoraFin(LocalTime.of(20,00));
 		this.setPrecioPorHora(40);
 		this.suscripcionManager= new SuscripcionManager();
+		this.infracciones = new ArrayList<Infraccion>();
 	}
 	
 	
@@ -57,6 +59,10 @@ public class SEM {
 	
 	public List<Estacionamiento> getEstacionamientos() {
 		return estacionamientos;
+	}
+	
+	public double getPrecioPorHora() {
+		return(this.precioPorHora);
 	}
 
 	public void addCompra(Compra compra) {
