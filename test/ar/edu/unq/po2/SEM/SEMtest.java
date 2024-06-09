@@ -1,12 +1,15 @@
 package ar.edu.unq.po2.SEM;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -109,6 +112,26 @@ class SEMtest {
 		sistema.generarInfraccion("ABC123", inspector);
 		
 		assertEquals(sistema.getInfracciones().size(), 1);
+	}
+	
+	@Test
+	void testVerificarEstacionamientoConVigenciaTrue() {
+		sistema.addEstacionamiento(estacionamiento);
+		
+		when(estacionamiento.estaVigente(any(LocalTime.class))).thenReturn(true);
+		when(sistema.estacionamientosVigentes().getFirst().getPatente()).thenReturn("ABC123");
+		
+		assertTrue(sistema.verificarEstacionamientoConVigencia("ABC123"));
+	}
+	
+	@Test
+	void testVerificarEstacionamientoConVigenciaFalse() {
+		sistema.addEstacionamiento(estacionamiento);
+		
+		when(estacionamiento.estaVigente(any(LocalTime.class))).thenReturn(true);
+		when(sistema.estacionamientosVigentes().getFirst().getPatente()).thenReturn("ABC123");
+		
+		assertFalse(sistema.verificarEstacionamientoConVigencia("DEF456"));
 	}
 	
 }

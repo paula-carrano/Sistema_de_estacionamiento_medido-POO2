@@ -1,5 +1,4 @@
 package ar.edu.unq.po2.SEM;
-import java.time.LocalTime;
 
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;

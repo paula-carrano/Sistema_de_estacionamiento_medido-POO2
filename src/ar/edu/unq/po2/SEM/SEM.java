@@ -95,16 +95,9 @@ public class SEM {
 						.forEach(e -> e.finalizar(horaFin));
 	}
 	
-	//Indica si la patente pasada por parametros tiene un estacionamiento vigente
 	public boolean verificarEstacionamientoConVigencia(String patente) {		
-				return estacionamientoABuscar(patente).estaVigente(LocalTime.now());
-	}
-	
-	//Busca en la lista de estacionamientos, aquel que tenga la patente indicada
-	private Estacionamiento estacionamientoABuscar(String patente) {
-		return estacionamientos.stream()
-								.filter(e->e.getPatente()
-								.equals(patente)).findFirst().get();
+		return this.estacionamientosVigentes().stream()
+								     		   .anyMatch(e -> e.getPatente() == patente);
 	}
 	
 	//Genera un infraccion y la guarda
