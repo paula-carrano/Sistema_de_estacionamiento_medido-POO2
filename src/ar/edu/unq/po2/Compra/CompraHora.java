@@ -7,10 +7,10 @@ import ar.edu.unq.po2.SEM.PuntoDeVenta;
 
 public class CompraHora extends Compra{
 
-	// Atributos.
+	
 	private int cantHoras;
 	
-	// Constructor.
+	
 	public CompraHora(int control, int horas, 
 			PuntoDeVenta punto) {
 		this.setFecha(LocalDate.now());
@@ -25,6 +25,7 @@ public class CompraHora extends Compra{
 		this.cantHoras = c;
 	}
 	
+	// Getter.
 	public int getCantHoras() {
 		return(this.cantHoras);
 	}

@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SuscripcionManager {
+	
 	private List<Suscriptor> suscriptores;
+	
 	
 	public SuscripcionManager() {
 		this.suscriptores= new ArrayList<Suscriptor>();
 	}
+	
 	
 	public void agregarSuscriptor(Suscriptor suscriptor) {
 		suscriptores.add(suscriptor);

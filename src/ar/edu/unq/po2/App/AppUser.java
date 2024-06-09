@@ -4,13 +4,13 @@ import ar.edu.unq.po2.SEM.SEM;
 
 public class AppUser implements MovementSensor{
 	
-	// Atributos.
+	
 	private String patente;
 	private SEM sistema;
 	private double saldo;
 	private Modo modo;
 	
-	//Constructor
+	
 	public AppUser(String patente, SEM sistema, Modo modo) {
 		this.setPatente(patente);
 		this.setSistema(sistema);

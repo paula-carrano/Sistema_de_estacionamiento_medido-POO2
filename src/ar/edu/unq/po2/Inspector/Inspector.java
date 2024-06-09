@@ -3,7 +3,8 @@ package ar.edu.unq.po2.Inspector;
 import ar.edu.unq.po2.SEM.*;
 
 public class Inspector {
-    private String inspectorID;
+    
+	private String inspectorID;
     private Zona zona;
     private SEM sistema;
 
@@ -23,7 +24,7 @@ public class Inspector {
         return sistema.verificarEstacionamientoConVigencia(patente);
     }
 
-    // Getters y setters
+    // Getters y setters.
     public String getInspectorID() {
         return inspectorID;
     }

@@ -9,7 +9,7 @@ public class PuntoDeVenta {
 
 	private SEM sistema;
 	
-	//Constructor
+
 	public PuntoDeVenta(SEM sistema) {
 		this.setSistema(sistema);
 	}

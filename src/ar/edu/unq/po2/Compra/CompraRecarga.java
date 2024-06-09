@@ -8,11 +8,11 @@ import ar.edu.unq.po2.SEM.PuntoDeVenta;
 
 public class CompraRecarga extends Compra {
 
-	// Atributos.
+	
 	private AppUser app;
 	private double monto;
 	
-	// Constructor.
+	
 	public CompraRecarga(int nroControl, 
 			AppUser app, double monto, 
 			PuntoDeVenta punto) {
@@ -33,6 +33,7 @@ public class CompraRecarga extends Compra {
 		this.monto = monto;
 	}
 	
+	// Getter.
 	public double getMonto() {
 		return(this.monto);
 	}
