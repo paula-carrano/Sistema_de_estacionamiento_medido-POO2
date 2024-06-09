@@ -5,13 +5,13 @@ import ar.edu.unq.po2.SEM.*;
 public class Inspector {
     
 	private String inspectorID;
-    private Zona zona;
+    private String zonaID;
     private SEM sistema;
 
-    public Inspector(String inspectorID, Zona zona, SEM sistema) {
+    public Inspector(String inspectorID, SEM sistema) {
         this.inspectorID = inspectorID;
-        this.zona = zona;
         this.sistema = sistema;
+        this.setInspectorID(inspectorID);
     }
 
     public void altaInfraccion(String patente) {
@@ -34,6 +34,10 @@ public class Inspector {
     }
 
     public String getZonaID() {
-        return zona.getZonaID();
+        return zonaID;
+    }
+    
+    public void setZonaID(String id) {
+    	this.zonaID=id;
     }
 }

@@ -16,6 +16,7 @@ public class Zona {
 		this.setInspector(inspector);
 		this.setZonaID(zonaID);
 		this.puntosDeVenta = new ArrayList<PuntoDeVenta>();
+		this.setInspectorZonaID();
 	}
 	
 	
@@ -28,6 +29,9 @@ public class Zona {
 		this.zonaID = zonaID;
 	}
 	
+	private void setInspectorZonaID() {
+		this.inspector.setZonaID(zonaID);
+	}
 	
 	//Getters
 	public List<PuntoDeVenta> getPuntosDeVenta() {

@@ -19,7 +19,8 @@ class InspectorTest {
         sistemaMock = mock(SEM.class);
         zonaMock = mock(Zona.class);
         when(zonaMock.getZonaID()).thenReturn("Zona1");
-        inspector = new Inspector("123", zonaMock, sistemaMock);
+        inspector = new Inspector("123", sistemaMock);
+        inspector.setZonaID("Zona1");
     }
 
     @Test
@@ -56,7 +57,7 @@ class InspectorTest {
     }
 
     @Test
-    public void testGetZona() {
+    public void testGetZonaID() {
         assertEquals("Zona1", inspector.getZonaID());
     }
 

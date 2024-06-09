@@ -1,6 +1,8 @@
 package ar.edu.unq.po2.SEM;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +19,9 @@ class ZonaTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		zona = new Zona(inspector, "z1");
+		inspector = new Inspector("123", mock(SEM.class)); 
+        zona = new Zona(inspector, "z1");
+        puntoDeVenta = new PuntoDeVenta(mock(SEM.class));
 	}
 	
 	
@@ -37,4 +41,9 @@ class ZonaTest {
 		
 		assertEquals(zona.getPuntosDeVenta().size(), 1);
 	}
+	
+	@Test
+    void testSetInspectorZonaID() {
+        assertEquals("z1", inspector.getZonaID());
+    }
 }
