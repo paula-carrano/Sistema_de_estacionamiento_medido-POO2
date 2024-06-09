@@ -92,5 +92,10 @@ class SEMtest {
 		
 		assertTrue(sistema.getEstacionamientos().stream().anyMatch(e -> e.estaVigente(LocalTime.of(20, 00))));
 	}
+	
+	@Test
+	public void testGetterPrecioPorHora() {
+		assertEquals(40, sistema.getPrecioPorHora());
+	}
 
 }
