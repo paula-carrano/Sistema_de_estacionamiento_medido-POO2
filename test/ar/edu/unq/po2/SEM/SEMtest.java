@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
 import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
+import ar.edu.unq.po2.Inspector.Inspector;
 
 class SEMtest {
 	
@@ -21,6 +22,7 @@ class SEMtest {
 	private Estacionamiento estacionamiento;
 	private Compra compra;
 	private AppUser app;
+	private Inspector inspector;
 	
 
 	
@@ -29,6 +31,7 @@ class SEMtest {
 		
 		estacionamiento = mock(Estacionamiento.class);
 		app = mock(AppUser.class);
+		inspector = mock(Inspector.class);
 		
 		sistema = new SEM();
 	
@@ -94,8 +97,18 @@ class SEMtest {
 	}
 	
 	@Test
-	public void testGetterPrecioPorHora() {
+	void testGetterPrecioPorHora() {
 		assertEquals(40, sistema.getPrecioPorHora());
+	}
+	
+	@Test
+	void testGenerarInfraccion () {
+		
+		assertTrue(sistema.getInfracciones().isEmpty());
+		
+		sistema.generarInfraccion("ABC123", inspector);
+		
+		assertEquals(sistema.getInfracciones().size(), 1);
 	}
 
 }

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import ar.edu.unq.po2.Estacionamiento.*;
 import ar.edu.unq.po2.Inspector.Infraccion;
 import ar.edu.unq.po2.Inspector.Inspector;
@@ -64,6 +66,11 @@ public class SEM {
 	public double getPrecioPorHora() {
 		return this.precioPorHora;
 	}
+	
+	public List<Infraccion> getInfracciones() {
+		return infracciones;
+	}
+	
 
 	public void addCompra(Compra compra) {
 		compras.add(compra);
@@ -82,25 +89,33 @@ public class SEM {
 		app.registrarSaldo(monto);
 	}
 	
-	//A las 8:00pm finaliza todos los estacionamientos vigentes
+	//A las 20:00hs finaliza todos los estacionamientos vigentes
 	public void finalizarEstacionamientos() {
-		estacionamientos.stream()
-						.filter(e -> e.estaVigente(LocalTime.now()))
+		this.estacionamientosVigentes().stream()
 						.forEach(e -> e.finalizar(horaFin));
 	}
-
 	
+	//Indica si la patente pasada por parametros tiene un estacionamiuento vigente
 	public boolean verificarEstacionamientoConVigencia(String patente) {		
 				return estacionamientoABuscar(patente).estaVigente(LocalTime.now());
 	}
 	
+	//Busca en la lista de estacionamientos, aquel que tenga la patente indicada
 	private Estacionamiento estacionamientoABuscar(String patente) {
 		return estacionamientos.stream()
 								.filter(e->e.getPatente()
 								.equals(patente)).findFirst().get();
 	}
 	
-	public Infraccion generarInfraccion(String patente, Inspector inspector) {
-		return new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, inspector.getZonaID());
+	//Genera un infraccion y la guarda
+	public void generarInfraccion(String patente, Inspector inspector) {
+		infracciones.add(new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, inspector.getZonaID()));
+	}
+	
+	//Devuelve una lista con todos los estacionamientos vigentes 
+	public List<Estacionamiento> estacionamientosVigentes() {
+		return estacionamientos.stream()
+							   .filter(e -> e.estaVigente(LocalTime.now()))
+							   .collect(Collectors.toList());
 	}
 }
