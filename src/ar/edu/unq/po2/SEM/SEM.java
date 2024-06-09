@@ -62,7 +62,7 @@ public class SEM {
 	}
 	
 	public double getPrecioPorHora() {
-		return(this.precioPorHora);
+		return this.precioPorHora;
 	}
 
 	public void addCompra(Compra compra) {
