@@ -12,14 +12,16 @@ public class Automatico implements Modo {
 	}
 
 	@Override
-	public void alertaFin(AppUser app) {
+	public void alertaFin(AppUser app){
 		if (app.consultarVigencia()) {
-			app.finalizarEstacionamiento();
+			try {
+				app.finalizarEstacionamiento();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			app.getNotificador().
 			enviarNotificacion("Estacionamiento finalizado.");
 		}
 	}
-
-
 
 }

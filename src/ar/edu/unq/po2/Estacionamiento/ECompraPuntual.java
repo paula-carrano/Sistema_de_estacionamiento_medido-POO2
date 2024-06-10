@@ -23,4 +23,16 @@ public class ECompraPuntual extends Estacionamiento{
 	public LocalTime calcularHoraFin() {
 		return this.horaInicio.plusHours(horasCompradas);
 	}
+
+	@Override
+	public int costoTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int duracionTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

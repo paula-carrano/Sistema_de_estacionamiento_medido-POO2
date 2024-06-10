@@ -1,5 +1,12 @@
 package ar.edu.unq.po2.App;
 
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import ar.edu.unq.po2.Estacionamiento.EAplicacion;
+import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 import ar.edu.unq.po2.SEM.SEM;
 
 public class AppUser implements MovementSensor{
@@ -82,13 +89,42 @@ public class AppUser implements MovementSensor{
 				(this.patente));
 	}
 
-	public void iniciarEstacionamiento() {
-		
+	public void iniciarEstacionamiento(){
+		if(this.getSaldo() < 0) {
+			this.notificador.
+			enviarNotificacion
+			("No se puede iniciar estacionamiento, saldo insuficiente.");
+		}
+		EAplicacion estacionamiento = new EAplicacion(this.patente, this);
+		this.sistema.addEstacionamiento(estacionamiento);
+		this.notificador.
+		enviarNotificacion("Hora Inicio: " 
+		+ estacionamiento.getHoraInicio()
+		+ " - Hora Fin: " + estacionamiento.calcularHoraFin());
 	}
 
-	public void finalizarEstacionamiento() {
-		// TODO Auto-generated method stub
-		
+	public int calculoHoraMaxima() {
+		return(int) 
+				(this.saldo / this.sistema.getPrecioPorHora());
+	}
+	
+	public void finalizarEstacionamiento() throws Exception {
+		try{Estacionamiento estacionamiento =
+			this.sistema.estacionamientosVigentes()
+			.stream().filter(e -> this.patente.
+				equals(e.getPatente())).findFirst()
+				.get();
+			this.notificador.enviarNotificacion(
+				"Hora Inicio: " + estacionamiento.getHoraInicio()
+				+ " - Hora de Finalizacion: " +
+					LocalTime.now() +
+				" - Duracion total: " + estacionamiento.duracionTotal()
+				+ "- Costo total: " + estacionamiento.costoTotal()
+					);
+		} catch (Exception e) {
+			this.notificador.enviarNotificacion(
+				"No existe un estacionamiento para esta patente.");
+		}
 	}
 	
 }

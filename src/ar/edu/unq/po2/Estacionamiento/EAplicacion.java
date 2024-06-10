@@ -25,4 +25,24 @@ public class EAplicacion extends Estacionamiento{
 	public void finalizar(LocalTime hora) {
 		this.setHoraFin(hora);
 	}
+	
+	//Calcula la hora de fin a partir de la hora de inicio y la cantidad de horas compradas
+	public LocalTime calcularHoraFin() {
+		return this.horaInicio.
+				plusHours(this.app.calculoHoraMaxima());
+	}
+
+
+	@Override
+	public int costoTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int duracionTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -81,6 +81,7 @@ public class SEM {
 	}
 	
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
+		// Agregar filtro de si existe un estacionamiento ya creado.
 		estacionamientos.add(estacionamiento);
 	}
 

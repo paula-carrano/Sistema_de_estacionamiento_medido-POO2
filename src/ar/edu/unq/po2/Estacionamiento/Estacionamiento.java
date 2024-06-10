@@ -42,7 +42,12 @@ public abstract class Estacionamiento {
         return horaActual.isAfter(this.getHoraInicio()) && horaActual.isBefore(this.getHoraFin());
 	}
 	
-	
 	public void finalizar(LocalTime hora) {}
+
+	public abstract LocalTime calcularHoraFin();
+
+	public abstract int costoTotal();
+
+	public abstract int duracionTotal();
 
 }

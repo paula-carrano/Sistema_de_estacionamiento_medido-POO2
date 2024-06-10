@@ -3,7 +3,7 @@ package ar.edu.unq.po2.App;
 public class Caminando implements Estado {
 
 	@Override
-	public void manejando(AppUser app) {
+	public void manejando(AppUser app){
 		app.getModo().alertaFin(app);
 		this.cambiarEstado(app);
 	}
