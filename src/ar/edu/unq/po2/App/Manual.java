@@ -3,15 +3,19 @@ package ar.edu.unq.po2.App;
 public class Manual implements Modo {
 
 	@Override
-	public void alertaInicio() {
-		// TODO Auto-generated method stub
-		
+	public void alertaInicio(AppUser app){
+		if (!app.consultarVigencia()) {
+			app.getNotificador().
+			enviarNotificacion("Debe iniciar un estacionamiento.");
+		}
 	}
 
 	@Override
-	public void alertaFin() {
-		// TODO Auto-generated method stub
-		
+	public void alertaFin(AppUser app) {
+		if (app.consultarVigencia()) {
+			app.getNotificador().
+			enviarNotificacion("Debe finalizar su estacionamiento.");
+		}
 	}
 
 

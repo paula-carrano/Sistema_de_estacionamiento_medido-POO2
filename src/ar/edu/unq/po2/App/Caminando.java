@@ -4,7 +4,7 @@ public class Caminando implements Estado {
 
 	@Override
 	public void manejando(AppUser app) {
-		app.getModo().alertaFin();
+		app.getModo().alertaFin(app);
 		this.cambiarEstado(app);
 	}
 

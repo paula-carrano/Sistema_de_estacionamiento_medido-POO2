@@ -9,6 +9,7 @@ public class AppUser implements MovementSensor{
 	private double saldo;
 	private Modo modo;
 	private Estado estado;
+	private ServicioNotificacion notificador;
 	
 	public AppUser(String patente, SEM sistema, Modo modo) {
 		this.setPatente(patente);
@@ -69,6 +70,25 @@ public class AppUser implements MovementSensor{
 	// Metodo para encender el MovementSensor.
 	public void encenderAlertas() {
 		this.setEstado(new Manejando());
+	}
+	
+	public ServicioNotificacion getNotificador() {
+		return this.notificador;
+	}
+
+	public boolean consultarVigencia() {
+		return
+		(this.sistema.verificarEstacionamientoConVigencia
+				(this.patente));
+	}
+
+	public void iniciarEstacionamiento() {
+		
+	}
+
+	public void finalizarEstacionamiento() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
