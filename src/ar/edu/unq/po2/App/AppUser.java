@@ -4,20 +4,19 @@ import ar.edu.unq.po2.SEM.SEM;
 
 public class AppUser implements MovementSensor{
 	
-	
 	private String patente;
 	private SEM sistema;
 	private double saldo;
 	private Modo modo;
-	
+	private Estado estado;
 	
 	public AppUser(String patente, SEM sistema, Modo modo) {
 		this.setPatente(patente);
 		this.setSistema(sistema);
 		this.setModo(modo);
 		this.saldo = 0;
+		this.estado = new Apagado();
 	}
-	
 	
 	//Setters
 	private void setPatente(String patente) {
@@ -36,22 +35,40 @@ public class AppUser implements MovementSensor{
 	public double getSaldo() {
 		return saldo;
 	}
-	
-	
+		
 	//Suma el saldo recargado
 	public void registrarSaldo(double monto) {
 		this.saldo = saldo + monto;
 	}
 
+	// Llega la alerta del Driving del sensor.
 	@Override
 	public void driving() {
-		// TODO Auto-generated method stub
-		
+		this.estado.manejando(this);
 	}
-
+	
+	// Llega la alerta del Walking del sensor.
 	@Override
 	public void walking() {
-		// TODO Auto-generated method stub
-		
+		this.estado.caminando(this);
 	}
+	
+	protected void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+	
+	protected Modo getModo() {
+		return this.modo;
+	}
+	
+	// Metodo para apagar el MovementSensor.
+	public void apagarAlertas() {
+		this.setEstado(new Apagado());
+	}
+	
+	// Metodo para encender el MovementSensor.
+	public void encenderAlertas() {
+		this.setEstado(new Manejando());
+	}
+	
 }
