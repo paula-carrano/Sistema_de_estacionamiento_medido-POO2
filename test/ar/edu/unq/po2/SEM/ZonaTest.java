@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ar.edu.unq.po2.Inspector.Inspector;
+import ar.edu.unq.po2.Punto.Punto;
 
 
 class ZonaTest {
@@ -14,11 +15,9 @@ class ZonaTest {
 	private Zona zona;
 	private PuntoDeVenta puntoDeVenta;
 	private Inspector inspector;
-	
 
 	@BeforeEach
 	void setUp() throws Exception {
-		
 		inspector = new Inspector("123", mock(SEM.class)); 
         zona = new Zona(inspector, "z1");
         puntoDeVenta = new PuntoDeVenta(mock(SEM.class));

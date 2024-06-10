@@ -1,22 +1,27 @@
 package ar.edu.unq.po2.Estacionamiento;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import ar.edu.unq.po2.App.AppUser;
+import ar.edu.unq.po2.Punto.Punto;
 
 class EAplicacionTest {
 
 	private EAplicacion est;
 	private AppUser app;
+	private Punto punto;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		est = new EAplicacion("ABC123", app);
+		punto = mock(Punto.class);
+		est = new EAplicacion("ABC123", app, punto);
 	}
 
 	@Test

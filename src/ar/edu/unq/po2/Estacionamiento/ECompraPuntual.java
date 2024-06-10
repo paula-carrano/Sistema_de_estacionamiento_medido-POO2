@@ -2,6 +2,8 @@ package ar.edu.unq.po2.Estacionamiento;
 
 import java.time.LocalTime;
 
+import ar.edu.unq.po2.Punto.Punto;
+
 public class ECompraPuntual extends Estacionamiento{
 	
 	private int horasCompradas;

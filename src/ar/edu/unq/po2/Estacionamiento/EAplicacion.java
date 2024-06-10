@@ -3,15 +3,17 @@ package ar.edu.unq.po2.Estacionamiento;
 import java.time.LocalTime;
 
 import ar.edu.unq.po2.App.AppUser;
+import ar.edu.unq.po2.Punto.Punto;
 
 public class EAplicacion extends Estacionamiento{
 
 	private AppUser app;
 	
-	public EAplicacion(String patente, AppUser app) {
+	public EAplicacion(String patente, AppUser app, Punto punto) {
 		this.setPatente(patente);
 		this.setApp(app);
 		this.setHoraInicio(LocalTime.now());
+		this.setPunto(punto);
 	}
 	
 	

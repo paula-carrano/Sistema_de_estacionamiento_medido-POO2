@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unq.po2.Inspector.Inspector;
+import ar.edu.unq.po2.Punto.Punto;
 
 public class Zona {
 	
 	private Inspector inspector;
 	private List<PuntoDeVenta> puntosDeVenta;
 	private String zonaID;
-	
 	
 	public Zona(Inspector inspector, String zonaID) {
 		this.setInspector(inspector);
@@ -20,6 +20,7 @@ public class Zona {
 	}
 	
 	
+
 	//Setters
 	private void setInspector(Inspector inspector) {
 		this.inspector = inspector;
@@ -42,8 +43,8 @@ public class Zona {
 		return zonaID;
 	}
 	
-	
 	public void addPuntoDeVenta(PuntoDeVenta p) {
 		puntosDeVenta.add(p);
 	}
+
 }

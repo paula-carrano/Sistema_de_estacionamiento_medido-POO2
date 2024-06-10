@@ -2,12 +2,14 @@ package ar.edu.unq.po2.Estacionamiento;
 
 import java.time.LocalTime;
 
+import ar.edu.unq.po2.Punto.Punto;
+
 public abstract class Estacionamiento {
 
 	private String patente;
 	protected LocalTime horaInicio;
 	protected LocalTime horaFin;
-	
+	protected Punto punto;
 	
 	//Setters
 	protected void setPatente(String patente) {
@@ -22,6 +24,9 @@ public abstract class Estacionamiento {
 		this.horaFin = horaFin;
 	}
 	
+	protected void setPunto(Punto p) {
+		this.punto = p;
+	}
 	
 	//Getters
 	public LocalTime getHoraInicio() {
@@ -36,6 +41,9 @@ public abstract class Estacionamiento {
 		return patente;
 	}
 	
+	public Punto getPunto() {
+		return this.punto;
+	}
 	
 	//Indica si esta vigente 
 	public boolean estaVigente(LocalTime horaActual) {
