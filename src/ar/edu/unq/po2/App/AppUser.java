@@ -1,10 +1,6 @@
 package ar.edu.unq.po2.App;
 
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
 import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 import ar.edu.unq.po2.SEM.SEM;
@@ -17,6 +13,8 @@ public class AppUser implements MovementSensor{
 	private Modo modo;
 	private Estado estado;
 	private ServicioNotificacion notificador;
+	private Zonificacion zona;
+	
 	
 	public AppUser(String patente, SEM sistema, Modo modo) {
 		this.setPatente(patente);

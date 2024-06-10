@@ -113,4 +113,11 @@ public class SEM {
 							   .collect(Collectors.toList());
 	}
 	
+	public boolean buscarZonaPorID(String id) {
+		return(
+			this.zonas.stream().anyMatch
+			(z -> z.getZonaID().equals(id))
+		);
+	}
+	
 }
