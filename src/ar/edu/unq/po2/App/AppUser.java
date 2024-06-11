@@ -19,11 +19,12 @@ public class AppUser implements MovementSensor{
 	public AppUser(String patente, SEM sistema, Modo modo, ServicioNotificacion notificador) {
 		this.setPatente(patente);
 		this.setSistema(sistema);
-		this.setModo(modo);
-		this.notificador = notificador;
-		this.saldo = 0;
-		this.estado = new Apagado();
+		this.setModo(new Manual()); //Inicia en modo manual
+		this.setNotificador(notificador);
+		this.setSaldo(0); //Inicia con saldo 0
+		this.setEstado(new Apagado()); //Inicia con el sensor apagado
 	}
+	
 	
 	//Setters
 	private void setPatente(String patente) {
@@ -34,34 +35,26 @@ public class AppUser implements MovementSensor{
 		this.sistema = sistema;
 	}
 	
-	public void setModo(Modo modo2) {
-		this.modo = modo2;
+	public void setModo(Modo modo) {
+		this.modo = modo;
 	}
 	
-	//Getters
-	public double getSaldo() {
-		return saldo;
-	}
-		
-	//Suma el saldo recargado
-	public void registrarSaldo(double monto) {
-		this.saldo = saldo + monto;
-	}
-
-	// Llega la alerta del Driving del sensor.
-	@Override
-	public void driving() {
-		this.estado.manejando(this);
+	private void setNotificador(ServicioNotificacion notificador) {
+		this.notificador = notificador;
 	}
 	
-	// Llega la alerta del Walking del sensor.
-	@Override
-	public void walking() {
-		this.estado.caminando(this);
+	private void setSaldo(double saldo) {
+		this.saldo = saldo;
 	}
 	
 	protected void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	
+	
+	//Getters
+	public double getSaldo() {
+		return saldo;
 	}
 	
 	protected Modo getModo() {
@@ -72,61 +65,92 @@ public class AppUser implements MovementSensor{
 		return this.sistema;
 	}
 	
-	// Metodo para apagar el MovementSensor.
+	public ServicioNotificacion getNotificador() {
+		return this.notificador;
+	}
+	
+	
+	//Acreditar y desacreditar saldo
+	public void registrarSaldo(double monto) {
+		this.setSaldo(this.saldo + monto);
+	}
+
+	public void descontarSaldo(double monto) {
+		this.setSaldo(this.saldo - monto);
+	}
+	
+	
+	//Alertas del movement sensor
+	@Override
+	public void driving() {
+		this.estado.manejando(this);
+	}
+	
+	@Override
+	public void walking() {
+		this.estado.caminando(this);
+	}
+	
+	
+	//Encendido y apagado e alertas del movement sensor
 	public void apagarAlertas() {
 		this.setEstado(new Apagado());
 	}
 	
-	// Metodo para encender el MovementSensor.
 	public void encenderAlertas() {
 		this.setEstado(new Manejando());
 	}
 	
-	public ServicioNotificacion getNotificador() {
-		return this.notificador;
-	}
-
+	
+	//Indica si el estacionamiento hay un estacionamiento vigente
 	public boolean consultarVigencia() {
-		return
-		(this.sistema.verificarEstacionamientoConVigencia
-				(this.patente));
+		return this.sistema.verificarEstacionamientoConVigencia(this.patente);
 	}
 
+	
+	//Si tiene saldo positivo, inicia un estacionamiento y notifica 
+	//De lo contrario, indica notifica saldo insuficiente
 	public void iniciarEstacionamiento(){
 		if(this.getSaldo() < 0) {
-			this.notificador.
-			enviarNotificacion
-			("No se puede iniciar estacionamiento, saldo insuficiente.");
+			EAplicacion estacionamiento = new EAplicacion(this.patente, this, null);
+			this.sistema.addEstacionamiento(estacionamiento);
+			this.notificador.enviarNotificacion(
+					" - Hora Inicio: " + estacionamiento.getHoraInicio() +
+					" - Hora maxima: " + this.calcularHoraMaxima());
+		} else {
+			this.notificador.enviarNotificacion("No se puede iniciar estacionamiento, saldo insuficiente.");
 		}
-		EAplicacion estacionamiento = new EAplicacion(this.patente, this, null);
-		this.sistema.addEstacionamiento(estacionamiento);
-		this.notificador.
-		enviarNotificacion("Hora Inicio: " 
-		+ estacionamiento.getHoraInicio()
-		+ " - Hora Fin: " + estacionamiento.calcularHoraFin());
-	}
-
-	public int calculoHoraMaxima() {
-		return(int) 
-				(this.saldo / this.sistema.getPrecioPorHora());
 	}
 	
+	
+	//Si hay un estacionamiento vigente, lo finaliza y notifica
+	//De lo contrario, notifica una excepcion
 	public void finalizarEstacionamiento() throws Exception {
-		try{Estacionamiento estacionamiento =
-			this.sistema.estacionamientosVigentes()
-			.stream().filter(e -> this.patente.
-				equals(e.getPatente())).findFirst()
-				.get();
+		
+		try{Estacionamiento estacionamiento = this.sistema.estacionamientoConPatente(this.patente);
 			estacionamiento.finalizar(LocalTime.now());
 			this.notificador.enviarNotificacion(
-				"Hora Inicio: " + estacionamiento.getHoraInicio()
+				 " - Hora Inicio: " + estacionamiento.getHoraInicio()
 				+" - Hora de Finalizacion: " + estacionamiento.getHoraFin() 
 				+" - Duracion total: " + estacionamiento.duracionTotal()
-				+"- Costo total: " + estacionamiento.costoTotal()
+				+" - Costo total: " + estacionamiento.costoTotal()
 					);
 		} catch (Exception e) {
 			this.notificador.enviarNotificacion(
 				"No existe un estacionamiento para esta patente.");
 		}
 	}
+	
+	
+	//Calcula la hora maxima permitida a partir del saldo
+	public LocalTime calcularHoraMaxima() {
+	    int cantHorasMax = (int) (this.saldo / this.sistema.getPrecioPorHora());
+	    LocalTime horaMaxima = LocalTime.now().plusHours(cantHorasMax);
+	    if (horaMaxima.isAfter(this.sistema.getHoraFin())) {
+	        return this.sistema.getHoraFin();
+	    } else {
+	        return horaMaxima;
+	    }
+	}
+
 }
