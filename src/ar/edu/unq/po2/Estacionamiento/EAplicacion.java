@@ -47,4 +47,10 @@ public class EAplicacion extends Estacionamiento{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
+	public void finalizar() {
+		// TODO Auto-generated method stub
+		
+	}
 }

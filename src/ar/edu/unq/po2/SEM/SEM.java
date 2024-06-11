@@ -113,6 +113,15 @@ public class SEM {
 							   .collect(Collectors.toList());
 	}
 	
+	
+	//Devuelve el estacionamiento con la patente indicada
+	public Estacionamiento estacionamientoConPatente(String patente) {
+			return this.estacionamientosVigentes().stream()
+												  .filter(e -> patente.equals(e.getPatente()))
+												  .findFirst()
+												  .get();
+	}
+	
 	public boolean buscarZonaPorID(String id) {
 		return(
 			this.zonas.stream().anyMatch

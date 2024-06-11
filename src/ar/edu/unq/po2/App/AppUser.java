@@ -16,10 +16,11 @@ public class AppUser implements MovementSensor{
 	private Zonificacion zona;
 	
 	
-	public AppUser(String patente, SEM sistema, Modo modo) {
+	public AppUser(String patente, SEM sistema, Modo modo, ServicioNotificacion notificador) {
 		this.setPatente(patente);
 		this.setSistema(sistema);
 		this.setModo(modo);
+		this.notificador = notificador;
 		this.saldo = 0;
 		this.estado = new Apagado();
 	}
@@ -93,7 +94,7 @@ public class AppUser implements MovementSensor{
 			enviarNotificacion
 			("No se puede iniciar estacionamiento, saldo insuficiente.");
 		}
-		EAplicacion estacionamiento = new EAplicacion(this.patente, this);
+		EAplicacion estacionamiento = new EAplicacion(this.patente, this, null);
 		this.sistema.addEstacionamiento(estacionamiento);
 		this.notificador.
 		enviarNotificacion("Hora Inicio: " 
@@ -124,5 +125,4 @@ public class AppUser implements MovementSensor{
 				"No existe un estacionamiento para esta patente.");
 		}
 	}
-	
 }
