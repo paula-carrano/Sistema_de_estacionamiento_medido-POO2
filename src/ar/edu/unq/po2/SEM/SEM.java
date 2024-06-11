@@ -74,26 +74,31 @@ public class SEM {
 
 	public void addCompra(Compra compra) {
 		compras.add(compra);
+		suscripcionManager.notificar();
 	}
 	
 	public void addZona(Zona zona) {
 		zonas.add(zona);
+		suscripcionManager.notificar();
 	}
 	
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		// Agregar filtro de si existe un estacionamiento ya creado.
 		estacionamientos.add(estacionamiento);
+		suscripcionManager.notificar();
 	}
 
 	//Le envia un mensjae a la app con el saldo recarga
 	public void notificarSaldo(AppUser app, double monto) {
 		app.registrarSaldo(monto);
+		suscripcionManager.notificar();
 	}
 	
 	//A las 20:00hs finaliza todos los estacionamientos vigentes
 	public void finalizarEstacionamientos() {
 		this.estacionamientosVigentes().stream()
 						.forEach(e -> e.finalizar(horaFin));
+		suscripcionManager.notificar();
 	}
 	
 	public boolean verificarEstacionamientoConVigencia(String patente) {		
@@ -104,6 +109,7 @@ public class SEM {
 	//Genera un infraccion y la guarda
 	public void generarInfraccion(String patente, Inspector inspector) {
 		infracciones.add(new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, inspector.getZonaID()));
+		suscripcionManager.notificar();
 	}
 	
 	//Devuelve una lista con todos los estacionamientos vigentes 
