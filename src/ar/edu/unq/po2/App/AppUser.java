@@ -112,6 +112,7 @@ public class AppUser implements MovementSensor{
 	}
 	
 	public void finalizarEstacionamiento() throws Exception {
+ estacionamiento_costoTotal
 		try{Estacionamiento estacionamiento =
 			this.sistema.estacionamientosVigentes()
 			.stream().filter(e -> this.patente.

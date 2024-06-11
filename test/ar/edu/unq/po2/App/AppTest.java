@@ -59,6 +59,28 @@ class AppTest {
     }
 	
 	
+	@Test
+    void testFinalizarEstacionamientoConEstacionamientoVigente() throws Exception {
+
+        List<Estacionamiento> estacionamientos = new ArrayList<>();
+        estacionamientos.add(estacionamiento);
+
+        when(sistema.estacionamientoConPatente("ABC123")).thenReturn(estacionamiento);
+        when(estacionamiento.getPatente()).thenReturn("ABC123");
+        when(estacionamiento.getHoraInicio()).thenReturn(LocalTime.of(9,00));
+        when(estacionamiento.getHoraFin()).thenReturn(LocalTime.of(10,00));
+        when(estacionamiento.duracionTotal()).thenReturn(1);
+        when(estacionamiento.costoTotal()).thenReturn(40);
+
+        app.finalizarEstacionamiento();
+
+        verify(notificador).enviarNotificacion(
+            "Hora Inicio: " + estacionamiento.getHoraInicio()
+            + " - Hora de Finalizacion: " + estacionamiento.getHoraFin()
+            + " - Duracion total: " + estacionamiento.duracionTotal()
+            + "- Costo total: " + estacionamiento.costoTotal()
+        );
+    }
 	
 
 }
