@@ -54,7 +54,7 @@ public abstract class Estacionamiento {
 
 	public abstract LocalTime calcularHoraFin();
 
-	public abstract int costoTotal();
+	public abstract Double costoTotal();
 
 	public abstract int duracionTotal();
 

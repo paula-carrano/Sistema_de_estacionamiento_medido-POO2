@@ -68,6 +68,10 @@ public class AppUser implements MovementSensor{
 		return this.modo;
 	}
 	
+	public SEM getSistema() {
+		return this.sistema;
+	}
+	
 	// Metodo para apagar el MovementSensor.
 	public void apagarAlertas() {
 		this.setEstado(new Apagado());
@@ -108,13 +112,19 @@ public class AppUser implements MovementSensor{
 	}
 	
 	public void finalizarEstacionamiento() throws Exception {
-		try{Estacionamiento estacionamiento = this.sistema.estacionamientoConPatente(this.patente);
-			this.notificador.enviarNotificacion
-							("Hora Inicio: " + estacionamiento.getHoraInicio() +
-							" - Hora de Finalizacion: " + estacionamiento.getHoraFin() +
-							" - Duracion total: " + estacionamiento.duracionTotal() +
-							"- Costo total: " + estacionamiento.costoTotal()
-							);
+ estacionamiento_costoTotal
+		try{Estacionamiento estacionamiento =
+			this.sistema.estacionamientosVigentes()
+			.stream().filter(e -> this.patente.
+				equals(e.getPatente())).findFirst()
+				.get();
+			estacionamiento.finalizar(LocalTime.now());
+			this.notificador.enviarNotificacion(
+				"Hora Inicio: " + estacionamiento.getHoraInicio()
+				+" - Hora de Finalizacion: " + estacionamiento.getHoraFin() 
+				+" - Duracion total: " + estacionamiento.duracionTotal()
+				+"- Costo total: " + estacionamiento.costoTotal()
+					);
 		} catch (Exception e) {
 			this.notificador.enviarNotificacion(
 				"No existe un estacionamiento para esta patente.");

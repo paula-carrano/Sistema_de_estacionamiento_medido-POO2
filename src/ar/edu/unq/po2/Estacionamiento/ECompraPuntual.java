@@ -27,9 +27,9 @@ public class ECompraPuntual extends Estacionamiento{
 	}
 
 	@Override
-	public int costoTotal() {
+	public Double costoTotal() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 0.0;
 	}
 
 	@Override
