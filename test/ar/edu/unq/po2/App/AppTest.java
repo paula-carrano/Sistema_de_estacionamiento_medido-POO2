@@ -7,11 +7,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
 import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 import ar.edu.unq.po2.SEM.*;
@@ -112,23 +110,11 @@ class AppTest {
 	
 	//INICIO DE ESTACIONAMIENTO
 	@Test
-	void testIniciarEstacionamientoConSaldoInsuficiente() {
-		//No se inicia el estacionamiento y se envia una notificacion
-		
-	    app.registrarSaldo(-10); 
-
-	    app.iniciarEstacionamiento();
-
-	    verify(notificador).enviarNotificacion("No se puede iniciar estacionamiento, saldo insuficiente.");
-	    verify(sistema, never()).addEstacionamiento(any(EAplicacion.class));
-	}
-	
-	
-	@Test
-    void testIniciarEstacionamientoConSaldoSuficiente() {
-		//Se inicia un testacionamiento, se lo manda al sistema y notifica
+    void testIniciarEstacionamientoConSaldoSuficienteYSinEstacionamientoVigente() {
+		//Se inicia un estacionamiento, se lo manda al sistema y notifica
 		
 		app.registrarSaldo(50);
+		when(app.consultarVigencia()).thenReturn(false); 
         ArgumentCaptor<EAplicacion> captor = ArgumentCaptor.forClass(EAplicacion.class);
 
         when(sistema.getHoraFin()).thenReturn(LocalTime.of(20,00));
@@ -145,4 +131,47 @@ class AppTest {
             " - Hora maxima: " + app.calcularHoraMaxima()
         );
     }
+	
+	@Test
+	public void testIniciarEstacionamientoSinEstacionamientoVigenteYSaldoInsuficiente() {
+		//No se inicia el estacionamiento y se notifica 
+		
+		when(app.consultarVigencia()).thenReturn(true);
+	    app.descontarSaldo(-50);
+
+	    app.iniciarEstacionamiento();
+
+	    verify(sistema, never()).addEstacionamiento(any(EAplicacion.class));
+
+	    verify(notificador).enviarNotificacion("Ya hay un estacionamiento vigente.");
+	}
+	
+	
+	@Test
+	public void testIniciarEstacionamientoConEstacionamientoVigenteYSaldoSuficiente() {
+		//No se inicia el estacionamiento y notifica que ya existe un estacioanmiento vigente
+		
+	    when(app.consultarVigencia()).thenReturn(true);
+	    app.registrarSaldo(50);
+
+	    app.iniciarEstacionamiento();
+
+	    verify(sistema, never()).addEstacionamiento(any(EAplicacion.class));
+	    verify(notificador).enviarNotificacion("Ya hay un estacionamiento vigente.");
+	}
+	
+	
+	@Test
+	public void testIniciarEstacionamientoConSaldoInsuficienteYSinEstacionamientoVigente() {
+		//No se inicia el estacionamiento y notifica que el saldop es insuficiente
+		
+	    when(app.consultarVigencia()).thenReturn(false);
+	    app.registrarSaldo(-5); 
+
+	    app.iniciarEstacionamiento();
+
+	    verify(sistema, never()).addEstacionamiento(any(EAplicacion.class));
+
+	    verify(notificador).enviarNotificacion("No se puede iniciar estacionamiento, saldo insuficiente.");
+	}
 }

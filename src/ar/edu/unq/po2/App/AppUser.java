@@ -2,7 +2,6 @@ package ar.edu.unq.po2.App;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
 import ar.edu.unq.po2.SEM.SEM;
 
@@ -110,18 +109,28 @@ public class AppUser implements MovementSensor{
 	
 	//Si tiene saldo positivo, inicia un estacionamiento y notifica 
 	//De lo contrario, indica notifica saldo insuficiente
-	public void iniciarEstacionamiento(){
-		if(this.getSaldo() > 0) {
-			EAplicacion estacionamiento = new EAplicacion(this.patente, this, null);
-			this.sistema.addEstacionamiento(estacionamiento);
-			this.notificador.enviarNotificacion(
-					" - Hora Inicio: " + estacionamiento.getHoraInicio() +
-					" - Hora maxima: " + this.calcularHoraMaxima());
-		} else {
-			this.notificador.enviarNotificacion("No se puede iniciar estacionamiento, saldo insuficiente.");
-		}
+	public void iniciarEstacionamiento() {
+	    try {
+	        if (this.consultarVigencia()) {
+	            throw new EstacionamientoVigenteException("Ya hay un estacionamiento vigente.");
+	        }
+	        
+	        if (this.getSaldo() <= 0) {
+	            throw new SaldoInsuficienteException("No se puede iniciar estacionamiento, saldo insuficiente.");
+	        }
+
+	        EAplicacion estacionamiento = new EAplicacion(patente, this, null);
+	        
+	        this.notificador.enviarNotificacion(
+	                " - Hora Inicio: " + estacionamiento.getHoraInicio() +
+	                " - Hora maxima: " + this.calcularHoraMaxima());
+	        
+	        sistema.addEstacionamiento(estacionamiento);
+	    } catch (EstacionamientoVigenteException | SaldoInsuficienteException e) {
+	        this.notificador.enviarNotificacion(e.getMessage());
+	    }
 	}
-	
+
 	
 	//Si hay un estacionamiento vigente, lo finaliza y notifica
 	//De lo contrario, notifica una excepcion
@@ -152,4 +161,17 @@ public class AppUser implements MovementSensor{
 	        return horaMaxima; 
 	    }
 	}
+
+	public class EstacionamientoVigenteException extends Exception {
+	    public EstacionamientoVigenteException(String message) {
+	        super(message);
+	    }
+	}
+
+	public class SaldoInsuficienteException extends Exception {
+	    public SaldoInsuficienteException(String message) {
+	        super(message);
+	    }
+	}
+
 }

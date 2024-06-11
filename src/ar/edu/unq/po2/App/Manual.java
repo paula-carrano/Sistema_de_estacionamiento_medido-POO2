@@ -17,6 +17,4 @@ public class Manual implements Modo {
 			enviarNotificacion("Debe finalizar su estacionamiento.");
 		}
 	}
-
-
 }
