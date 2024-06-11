@@ -70,7 +70,7 @@ class AppTest {
         when(estacionamiento.getHoraInicio()).thenReturn(LocalTime.of(9,00));
         when(estacionamiento.getHoraFin()).thenReturn(LocalTime.of(10,00));
         when(estacionamiento.duracionTotal()).thenReturn(1);
-        when(estacionamiento.costoTotal()).thenReturn(40);
+        when(estacionamiento.costoTotal()).thenReturn(40.00);
 
         app.finalizarEstacionamiento();
 
