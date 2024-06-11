@@ -2,12 +2,9 @@ package ar.edu.unq.po2.SEM;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import ar.edu.unq.po2.Inspector.Inspector;
-import ar.edu.unq.po2.Punto.Punto;
 
 
 class ZonaTest {

@@ -30,13 +30,12 @@ public class EAplicacion extends Estacionamiento{
 		app.descontarSaldo(this.costoTotal());
 	}
 
-	public Double costoTotal() {
-		return this.duracionTotal()* app.getSistema().getPrecioPorHora();
+	public double costoTotal() {
+		return this.duracionTotal() * app.getSistema().getPrecioPorHora();
 	}
 
 
 	public int duracionTotal() {
 		return (int) this.getHoraInicio().until(this.getHoraFin(), ChronoUnit.HOURS);
 	}
-
 }
