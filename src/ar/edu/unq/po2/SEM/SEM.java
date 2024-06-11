@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import ar.edu.unq.po2.Estacionamiento.*;
 import ar.edu.unq.po2.Inspector.Infraccion;
 import ar.edu.unq.po2.Inspector.Inspector;
@@ -87,7 +86,6 @@ public class SEM {
 	}
 	
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
-		// Agregar filtro de si existe un estacionamiento ya creado.
 		estacionamientos.add(estacionamiento);
 		suscripcionManager.notificar();
 	}

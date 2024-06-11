@@ -1,42 +1,106 @@
 package ar.edu.unq.po2.App;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ManualTest {
+	
+	private Manual manual;
+	private AppUser appUserMock;
+	private ServicioNotificacion notificadorMock;
+	
+	
+	@BeforeEach
+	void setUp() {
+		appUserMock = mock(AppUser.class);
+		notificadorMock = mock(ServicioNotificacion.class);
+		manual = new Manual();
+	}
 
-	  private AppUser appUserMock;
-	    private ServicioNotificacion notificadorMock;
-	    private Manual manual;
+	
+	//ALERTA INICIO
+	@Test
+	public void testAlertaInicioSinEstacionamientoVigente() {
+	    when(appUserMock.consultarVigencia()).thenReturn(false);
+	    when(appUserMock.getNotificador()).thenReturn(notificadorMock);
 
-	    @BeforeEach
-	    void setUp() {
-	        appUserMock = mock(AppUser.class);
-	        notificadorMock = mock(ServicioNotificacion.class);
-	        manual = new Manual();
-	    }
+	    manual.alertaInicio(appUserMock);
 
-	    @Test
-	    public void testAlertaInicio() {
-	        when(appUserMock.consultarVigencia()).thenReturn(false);
-	        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
+	    // Verificar que se llamó enviarNotificacion con el mensaje correcto
+	    verify(notificadorMock).enviarNotificacion("Debe iniciar un estacionamiento.");
+	}
+	
+	
+	@Test
+	public void testAlertaInicioConEstacionamientoVigente() {
+		
+	    when(appUserMock.consultarVigencia()).thenReturn(true);
+	    when(appUserMock.getNotificador()).thenReturn(notificadorMock);
 
-	        manual.alertaInicio(appUserMock);
+	    manual.alertaInicio(appUserMock);
 
-	        // Verificar que se llamó enviarNotificacion con el mensaje correcto
-	        verify(notificadorMock).enviarNotificacion("Debe iniciar un estacionamiento.");
-	    }
+	    // Verificar que nunca se llamó enviarNotificacion 
+	    verify(notificadorMock, never()).enviarNotificacion("Debe iniciar un estacionamiento.");
+	}
 
-	    @Test
-	    public void testAlertaFin() {
-	        when(appUserMock.consultarVigencia()).thenReturn(true);
-	        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
+	
+	//ALERTA FIN
+	@Test
+	public void testAlertaFinConEstacionamientoVigenteYEnMismaZona() {
+		
+		when(appUserMock.consultarVigencia()).thenReturn(true);
+        when(appUserMock.esMismoPuntoDeInicio()).thenReturn(true);
+        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
+        
+	    manual.alertaFin(appUserMock);
 
-	        manual.alertaFin(appUserMock);
+	    // Verificar que se llamó enviarNotificacion con el mensaje correcto
+	    verify(notificadorMock).enviarNotificacion("Debe finalizar su estacionamiento.");
+	}
+	
+	
+	@Test
+	public void testAlertaFinConEstacionamientoVigenteYEnDistintaZona() {
+		
+		when(appUserMock.consultarVigencia()).thenReturn(true);
+        when(appUserMock.esMismoPuntoDeInicio()).thenReturn(false);
+        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
+        
+	    manual.alertaFin(appUserMock);
 
-	        // Verificar que se llamó enviarNotificacion con el mensaje correcto
-	        verify(notificadorMock).enviarNotificacion("Debe finalizar su estacionamiento.");
-	    }
+	    // Verificar que nunca se llamó enviarNotificacion 
+	    verify(notificadorMock, never()).enviarNotificacion(anyString());
+	}
+	 
+	
+	@Test
+	public void testAlertaFinSinEstacionamientoVigenteYMismaZona() {
+		
+		when(appUserMock.consultarVigencia()).thenReturn(false);
+        when(appUserMock.esMismoPuntoDeInicio()).thenReturn(true);
+        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
+        
+	    manual.alertaFin(appUserMock);
+
+	    // Verificar que nunca se llamó enviarNotificacion 
+	    verify(notificadorMock, never()).enviarNotificacion(anyString());
+	}
+	
+	
+	@Test
+	public void testAlertaFinSinEstacionamientoVigenteYEnDistintaZona() {
+		
+		when(appUserMock.consultarVigencia()).thenReturn(false);
+        when(appUserMock.esMismoPuntoDeInicio()).thenReturn(false);
+        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
+        
+	    manual.alertaFin(appUserMock);
+
+	    // Verificar que nunca se llamó enviarNotificacion 
+	    verify(notificadorMock, never()).enviarNotificacion(anyString());
+	}
+	    
 }

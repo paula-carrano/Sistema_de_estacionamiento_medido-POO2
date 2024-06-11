@@ -7,15 +7,15 @@ public class Automatico implements Modo {
 		if (!app.consultarVigencia()) {
 			app.iniciarEstacionamiento();
 			app.getNotificador().
-			enviarNotificacion("Estacionamiento iniciado.");
+			enviarNotificacion("Estacionamiento iniciado de forma automatica.");
 		}
 	}
 
 	@Override
 	public void alertaFin(AppUser app) {
-		if (app.consultarVigencia()) {
+		if (app.consultarVigencia() && app.esMismoPuntoDeInicio()) {
 				app.finalizarEstacionamiento();
-				app.getNotificador().enviarNotificacion("Estacionamiento finalizado.");
+				app.getNotificador().enviarNotificacion("Estacionamiento finalizado de forma automatica.");
 		}
 	}
 }

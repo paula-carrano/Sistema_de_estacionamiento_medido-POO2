@@ -1,11 +1,11 @@
 package ar.edu.unq.po2.App;
 
 import static org.mockito.Mockito.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class CaminandoTest {
+	
 	private Caminando caminando;
     private AppUser app;
     private Modo modo;

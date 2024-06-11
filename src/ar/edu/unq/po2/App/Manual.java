@@ -12,7 +12,7 @@ public class Manual implements Modo {
 
 	@Override
 	public void alertaFin(AppUser app) {
-		if (app.consultarVigencia()) {
+		if (app.consultarVigencia() && app.esMismoPuntoDeInicio()) {
 			app.getNotificador().
 			enviarNotificacion("Debe finalizar su estacionamiento.");
 		}

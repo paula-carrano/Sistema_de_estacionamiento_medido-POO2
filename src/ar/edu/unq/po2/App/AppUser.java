@@ -159,4 +159,10 @@ public class AppUser implements MovementSensor{
 	        return horaMaxima; 
 	    }
 	}
+	
+	
+	//Desarrollar
+	public boolean esMismoPuntoDeInicio() {
+		return true;
+	}
 }
