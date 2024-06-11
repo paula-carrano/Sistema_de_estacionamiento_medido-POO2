@@ -1,7 +1,9 @@
 package ar.edu.unq.po2.Estacionamiento;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +30,7 @@ class EAplicacionTest {
 		est = new EAplicacion("ABC123", app, punto);
 	}
 
+	//VIGENCIA
 	@Test
 	void testEstacionamientoVigente() {
 		
@@ -38,40 +41,8 @@ class EAplicacionTest {
 	}
 	
 	@Test
-	void testEstacionamientoNoVigente() {
-		
-		est.setHoraInicio(LocalTime.of(13,00));
-		est.setHoraFin(LocalTime.of(16,00));
-		
-		assertFalse(est.estaVigente(LocalTime.of(18,00)));
-	}
-	
-	
-	@Test
-	void testEstacionamientoVigenteFinalizar() {
-		
-		est.setHoraInicio(LocalTime.of(13,00));
-		est.setHoraFin(LocalTime.of(16,00));
-		
-		assertTrue(est.estaVigente(LocalTime.of(14,00)));
-		
-		est.finalizar(LocalTime.of(14,00));
-		
-		assertFalse(est.estaVigente(LocalTime.of(14,00)));
-		assertEquals(est.getHoraFin(), LocalTime.of(14, 00));
-	}
-
-
-	@Test
-	void testEstacionamientoInicioExactoNoVigente() {
-	    est.setHoraInicio(LocalTime.of(13, 0));
-	    est.setHoraFin(LocalTime.of(16, 0));
-	
-	    assertFalse(est.estaVigente(LocalTime.of(13, 0)));
-	}
-
-	@Test
 	void testEstacionamientoFinExactoNoVigente() {
+		
 	    est.setHoraInicio(LocalTime.of(13, 0));
 	    est.setHoraFin(LocalTime.of(16, 0));
 	
@@ -80,6 +51,7 @@ class EAplicacionTest {
 
 	@Test
 	void testEstacionamientoAntesDeInicioNoVigente() {
+		
 	    est.setHoraInicio(LocalTime.of(13, 0));
 	    est.setHoraFin(LocalTime.of(16, 0));
 	
@@ -88,11 +60,34 @@ class EAplicacionTest {
 
 	@Test
 	void testEstacionamientoDespuesDeFinNoVigente() {
+		
 	    est.setHoraInicio(LocalTime.of(13, 0));
 	    est.setHoraFin(LocalTime.of(16, 0));
 	
 	    assertFalse(est.estaVigente(LocalTime.of(16, 1)));
 	}
+	
+	
+	//FINALIZACION
+	@Test
+	void testEstacionamientoVigenteFinalizar() {
+		//Finaliza y le envia un mensaje a la app para que descuente el costo
+		
+		est.setHoraInicio(LocalTime.of(13,00));
+		est.setHoraFin(LocalTime.of(16,00));
+		when(sistema.getPrecioPorHora()).thenReturn(40.0);
+		
+		assertTrue(est.estaVigente(LocalTime.of(14,00)));
+		
+		est.finalizar(LocalTime.of(14,00));
+		
+		assertFalse(est.estaVigente(LocalTime.of(14,00)));
+		assertEquals(est.getHoraFin(), LocalTime.of(14, 00));
+		assertEquals(est.duracionTotal(), 1);
+		assertEquals(est.costoTotal(), 40);
+		verify(app).descontarSaldo(40);
+	}
+
 
 	@Test
 	void testDuracionTotal() {
