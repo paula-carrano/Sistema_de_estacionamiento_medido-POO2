@@ -1,6 +1,8 @@
 package ar.edu.unq.po2.App;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
 import ar.edu.unq.po2.SEM.SEM;
 
@@ -109,7 +111,7 @@ public class AppUser implements MovementSensor{
 	//Si tiene saldo positivo, inicia un estacionamiento y notifica 
 	//De lo contrario, indica notifica saldo insuficiente
 	public void iniciarEstacionamiento(){
-		if(this.getSaldo() < 0) {
+		if(this.getSaldo() > 0) {
 			EAplicacion estacionamiento = new EAplicacion(this.patente, this, null);
 			this.sistema.addEstacionamiento(estacionamiento);
 			this.notificador.enviarNotificacion(
@@ -143,12 +145,11 @@ public class AppUser implements MovementSensor{
 	//Calcula la hora maxima permitida a partir del saldo
 	public LocalTime calcularHoraMaxima() {
 	    int cantHorasMax = (int) (this.saldo / this.sistema.getPrecioPorHora());
-	    LocalTime horaMaxima = LocalTime.now().plusHours(cantHorasMax);
+	    LocalTime horaMaxima = LocalTime.now().plusHours(cantHorasMax).truncatedTo(ChronoUnit.SECONDS);
 	    if (horaMaxima.isAfter(this.sistema.getHoraFin())) {
 	        return this.sistema.getHoraFin();
 	    } else {
-	        return horaMaxima; //fgdf
+	        return horaMaxima; 
 	    }
 	}
-
 }

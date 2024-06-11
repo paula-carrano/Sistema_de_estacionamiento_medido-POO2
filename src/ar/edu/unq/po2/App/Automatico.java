@@ -23,5 +23,4 @@ public class Automatico implements Modo {
 			}
 		}
 	}
-
 }

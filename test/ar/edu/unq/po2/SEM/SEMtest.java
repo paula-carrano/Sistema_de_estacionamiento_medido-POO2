@@ -7,7 +7,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,10 +96,13 @@ class SEMtest {
 		assertTrue(sistema.getEstacionamientos().stream().anyMatch(e -> e.estaVigente(LocalTime.of(20, 00))));
 	}
 	
+	
 	@Test
 	void testGetterPrecioPorHora() {
+		
 		assertEquals(40, sistema.getPrecioPorHora());
 	}
+	
 	
 	@Test
 	void testGenerarInfraccion () {
@@ -112,8 +114,10 @@ class SEMtest {
 		assertEquals(sistema.getInfracciones().size(), 1);
 	}
 	
+	
 	@Test
 	void testVerificarEstacionamientoConVigenciaTrue() {
+		
 		sistema.addEstacionamiento(estacionamiento);
 		
 		when(estacionamiento.estaVigente(any(LocalTime.class))).thenReturn(true);
@@ -122,8 +126,10 @@ class SEMtest {
 		assertTrue(sistema.verificarEstacionamientoConVigencia("ABC123"));
 	}
 	
+	
 	@Test
 	void testVerificarEstacionamientoConVigenciaFalse() {
+		
 		sistema.addEstacionamiento(estacionamiento);
 		
 		when(estacionamiento.estaVigente(any(LocalTime.class))).thenReturn(true);

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +17,7 @@ import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 import ar.edu.unq.po2.SEM.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 class AppTest {
 
@@ -62,7 +64,7 @@ class AppTest {
 	@Test
     void testFinalizarEstacionamientoSinEstacionamientoVigente() throws Exception {
 		//No se descuenta saldo de la app y ni se finaliza un estacionamiento
-		//Se envia una excepcion
+		//Se envia una notificacion como excepcion
 
         List<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
         app.registrarSaldo(50); 
@@ -72,6 +74,7 @@ class AppTest {
         app.finalizarEstacionamiento();
 
         assertEquals(app.getSaldo(), 50);
+        verify(sistema, never()).addEstacionamiento(any(EAplicacion.class));
         verify(notificador).enviarNotificacion("No existe un estacionamiento para esta patente.");
     }
 	
@@ -103,6 +106,43 @@ class AppTest {
             + " - Hora de Finalizacion: " + estacionamiento.getHoraFin()
             + " - Duracion total: " + estacionamiento.duracionTotal()
             + " - Costo total: " + estacionamiento.costoTotal()
+        );
+    }
+	
+	
+	//INICIO DE ESTACIONAMIENTO
+	@Test
+	void testIniciarEstacionamientoConSaldoInsuficiente() {
+		//No se inicia el estacionamiento y se envia una notificacion
+		
+	    app.registrarSaldo(-10); 
+
+	    app.iniciarEstacionamiento();
+
+	    verify(notificador).enviarNotificacion("No se puede iniciar estacionamiento, saldo insuficiente.");
+	    verify(sistema, never()).addEstacionamiento(any(EAplicacion.class));
+	}
+	
+	
+	@Test
+    void testIniciarEstacionamientoConSaldoSuficiente() {
+		//Se inicia un testacionamiento, se lo manda al sistema y notifica
+		
+		app.registrarSaldo(50);
+        ArgumentCaptor<EAplicacion> captor = ArgumentCaptor.forClass(EAplicacion.class);
+
+        when(sistema.getHoraFin()).thenReturn(LocalTime.of(20,00));
+        when(sistema.getPrecioPorHora()).thenReturn(40.0);
+        
+        app.iniciarEstacionamiento();
+
+        verify(sistema).addEstacionamiento(captor.capture());
+        EAplicacion estacionamiento = captor.getValue();
+        assertNotNull(estacionamiento);
+        
+        verify(notificador).enviarNotificacion(
+            " - Hora Inicio: " + estacionamiento.getHoraInicio() +
+            " - Hora maxima: " + app.calcularHoraMaxima()
         );
     }
 }
