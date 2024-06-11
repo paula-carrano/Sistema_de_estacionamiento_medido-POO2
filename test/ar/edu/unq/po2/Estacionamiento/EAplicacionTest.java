@@ -2,6 +2,7 @@ package ar.edu.unq.po2.Estacionamiento;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalTime;
 
@@ -11,16 +12,23 @@ import org.mockito.Mock;
 
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Punto.Punto;
+import ar.edu.unq.po2.SEM.SEM;
 
 class EAplicacionTest {
 
 	private EAplicacion est;
 	private AppUser app;
 	private Punto punto;
+	private SEM sistema;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		punto = mock(Punto.class);
+		app = mock(AppUser.class);
+		sistema = mock(SEM.class);
+		
+		when(app.getSistema()).thenReturn(sistema);
+		
 		est = new EAplicacion("ABC123", app, punto);
 	}
 
@@ -88,5 +96,27 @@ class EAplicacionTest {
 	    est.setHoraFin(LocalTime.of(16, 0));
 	
 	    assertFalse(est.estaVigente(LocalTime.of(16, 1)));
+	}
+	
+	@Test
+	void testCalcularHoraFin() {
+		when(app.calculoHoraMaxima()).thenReturn(3);
+		est.setHoraInicio(LocalTime.of(13, 0));
+		assertEquals(LocalTime.of(16, 0), est.calcularHoraFin());
+	}
+
+	@Test
+	void testDuracionTotal() {
+		est.setHoraInicio(LocalTime.of(13, 0));
+		est.setHoraFin(LocalTime.of(16, 0));
+		assertEquals(3, est.duracionTotal());
+	}
+
+	@Test
+	void testCostoTotal() {
+		est.setHoraInicio(LocalTime.of(13, 0));
+		est.setHoraFin(LocalTime.of(16, 0));
+		when(sistema.getPrecioPorHora()).thenReturn(10.0);
+		assertEquals(30.0, est.costoTotal());
 	}
 }
