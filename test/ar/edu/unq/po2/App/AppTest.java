@@ -60,7 +60,7 @@ class AppTest {
 	
 	//FINALIZACION DE ESTACIONAMIENTO 
 	@Test
-    void testFinalizarEstacionamientoSinEstacionamientoVigente() throws Exception {
+    void testFinalizarEstacionamientoSinEstacionamientoVigente(){
 		//No se descuenta saldo de la app y ni se finaliza un estacionamiento
 		//Se envia una notificacion como excepcion
 
@@ -73,7 +73,7 @@ class AppTest {
 
         assertEquals(app.getSaldo(), 50);
         verify(sistema, never()).addEstacionamiento(any(EAplicacion.class));
-        verify(notificador).enviarNotificacion("No existe un estacionamiento para esta patente.");
+        verify(notificador).enviarNotificacion("No existe un estacionamiento vigente para esta patente.");
     }
 	
 	

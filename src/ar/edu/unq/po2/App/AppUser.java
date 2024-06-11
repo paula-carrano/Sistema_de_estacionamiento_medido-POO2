@@ -132,21 +132,21 @@ public class AppUser implements MovementSensor{
 	
 	//Si hay un estacionamiento vigente, lo finaliza y notifica
 	//De lo contrario, notifica una excepcion
-	public void finalizarEstacionamiento() throws Exception {
-		
-		try{EAplicacion estacionamiento = (EAplicacion) this.sistema.estacionamientoConPatente(this.patente);
-			estacionamiento.finalizar(LocalTime.now());
-			this.notificador.enviarNotificacion(
-				 " - Hora Inicio: " + estacionamiento.getHoraInicio()
-				+" - Hora de Finalizacion: " + estacionamiento.getHoraFin() 
-				+" - Duracion total: " + estacionamiento.duracionTotal()
-				+" - Costo total: " + estacionamiento.costoTotal()
-					);
-		} catch (Exception e) {
-			this.notificador.enviarNotificacion(
-				"No existe un estacionamiento para esta patente.");
-		}
+	public void finalizarEstacionamiento() {
+	        try {
+	        	EAplicacion estacionamiento = (EAplicacion) this.sistema.estacionamientoConPatente(this.patente);
+	            estacionamiento.finalizar(LocalTime.now());
+	            this.notificador.enviarNotificacion(
+	                    " - Hora Inicio: " + estacionamiento.getHoraInicio()
+	                    +" - Hora de Finalizacion: " + estacionamiento.getHoraFin() 
+	                    +" - Duracion total: " + estacionamiento.duracionTotal()
+	                    +" - Costo total: " + estacionamiento.costoTotal()
+	            );
+	        } catch (Exception e) {
+	        	this.notificador.enviarNotificacion("No existe un estacionamiento vigente para esta patente.");
+	        }
 	}
+
 	
 	
 	//Calcula la hora maxima permitida a partir del saldo
