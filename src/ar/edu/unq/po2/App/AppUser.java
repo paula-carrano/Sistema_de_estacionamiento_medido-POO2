@@ -2,6 +2,7 @@ package ar.edu.unq.po2.App;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
 import ar.edu.unq.po2.SEM.SEM;
 
@@ -107,26 +108,23 @@ public class AppUser implements MovementSensor{
 	}
 
 	
-	//Si tiene saldo positivo, inicia un estacionamiento y notifica 
-	//De lo contrario, indica notifica saldo insuficiente
+	//Si tiene saldo positivo y no hay un estacionamiento vigente, inicia un estacionamiento y notifica 
+	//De lo contrario, notifica el problema
 	public void iniciarEstacionamiento() {
-	    try {
+		try {
 	        if (this.consultarVigencia()) {
-	            throw new EstacionamientoVigenteException("Ya hay un estacionamiento vigente.");
+	            throw new RuntimeException("Ya hay un estacionamiento vigente.");
 	        }
-	        
 	        if (this.getSaldo() <= 0) {
-	            throw new SaldoInsuficienteException("No se puede iniciar estacionamiento, saldo insuficiente.");
+	            throw new RuntimeException("No se puede iniciar estacionamiento, saldo insuficiente.");
 	        }
 
 	        EAplicacion estacionamiento = new EAplicacion(patente, this, null);
-	        
+	        sistema.addEstacionamiento(estacionamiento);
 	        this.notificador.enviarNotificacion(
 	                " - Hora Inicio: " + estacionamiento.getHoraInicio() +
 	                " - Hora maxima: " + this.calcularHoraMaxima());
-	        
-	        sistema.addEstacionamiento(estacionamiento);
-	    } catch (EstacionamientoVigenteException | SaldoInsuficienteException e) {
+	    } catch (RuntimeException e) {
 	        this.notificador.enviarNotificacion(e.getMessage());
 	    }
 	}
@@ -161,17 +159,4 @@ public class AppUser implements MovementSensor{
 	        return horaMaxima; 
 	    }
 	}
-
-	public class EstacionamientoVigenteException extends Exception {
-	    public EstacionamientoVigenteException(String message) {
-	        super(message);
-	    }
-	}
-
-	public class SaldoInsuficienteException extends Exception {
-	    public SaldoInsuficienteException(String message) {
-	        super(message);
-	    }
-	}
-
 }

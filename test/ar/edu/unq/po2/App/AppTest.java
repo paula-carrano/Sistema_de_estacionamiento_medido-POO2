@@ -134,8 +134,7 @@ class AppTest {
 	
 	@Test
 	public void testIniciarEstacionamientoSinEstacionamientoVigenteYSaldoInsuficiente() {
-		//No se inicia el estacionamiento y se notifica 
-		
+		//
 		when(app.consultarVigencia()).thenReturn(true);
 	    app.descontarSaldo(-50);
 
