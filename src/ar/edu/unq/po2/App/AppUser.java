@@ -2,8 +2,8 @@ package ar.edu.unq.po2.App;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
+import ar.edu.unq.po2.Punto.Punto;
 import ar.edu.unq.po2.SEM.SEM;
 
 public class AppUser implements MovementSensor{
@@ -14,15 +14,17 @@ public class AppUser implements MovementSensor{
 	private Modo modo;
 	private Estado estado;
 	private ServicioNotificacion notificador;
+	private Punto punto;
 	
 	
-	public AppUser(String patente, SEM sistema, Modo modo, ServicioNotificacion notificador) {
+	public AppUser(String patente, SEM sistema, ServicioNotificacion notificador, Punto punto) {
 		this.setPatente(patente);
 		this.setSistema(sistema);
 		this.setModo(new Manual()); //Inicia en modo manual
 		this.setNotificador(notificador);
 		this.setSaldo(0); //Inicia con saldo 0
 		this.setEstado(new Apagado()); //Inicia con el sensor apagado
+		this.setPunto(punto); 
 	}
 	
 	
@@ -49,6 +51,11 @@ public class AppUser implements MovementSensor{
 	
 	protected void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	
+	//El punto se actualiza automaticamente por el gps
+	protected void setPunto(Punto punto) {
+		this.punto = punto;
 	}
 	
 	
@@ -119,7 +126,7 @@ public class AppUser implements MovementSensor{
 	            throw new RuntimeException("No se puede iniciar estacionamiento, saldo insuficiente.");
 	        }
 
-	        EAplicacion estacionamiento = new EAplicacion(patente, this, null);
+	        EAplicacion estacionamiento = new EAplicacion(this.patente, this, this.punto);
 	        sistema.addEstacionamiento(estacionamiento);
 	        this.notificador.enviarNotificacion(
 	                " - Hora Inicio: " + estacionamiento.getHoraInicio() +
@@ -161,8 +168,8 @@ public class AppUser implements MovementSensor{
 	}
 	
 	
-	//Desarrollar
+	//Verifica si el punto actual es el mismo al del inicio del estacionamiento 
 	public boolean esMismoPuntoDeInicio() {
-		return true;
+		return this.punto == this.sistema.estacionamientoConPatente(this.patente).getPunto();
 	}
 }

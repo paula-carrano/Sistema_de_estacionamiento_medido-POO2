@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
 import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
+import ar.edu.unq.po2.Punto.Punto;
 import ar.edu.unq.po2.SEM.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ class AppTest {
 	private Modo modo;
 	private ServicioNotificacion notificador;
 	private EAplicacion estacionamiento;
+	private Punto punto;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -32,8 +34,9 @@ class AppTest {
 		modo = mock(Automatico.class);
 		notificador = mock(ServicioNotificacion.class);
 		estacionamiento = mock(EAplicacion.class);
+		punto = mock(Punto.class);
 		
-		app  = new AppUser("ABC123", sistema, modo, notificador);
+		app  = new AppUser("ABC123", sistema, notificador, punto);
 	}
 
 	//SALDO 

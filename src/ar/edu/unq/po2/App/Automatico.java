@@ -11,6 +11,7 @@ public class Automatico implements Modo {
 		}
 	}
 
+	
 	@Override
 	public void alertaFin(AppUser app) {
 		if (app.consultarVigencia() && app.esMismoPuntoDeInicio()) {

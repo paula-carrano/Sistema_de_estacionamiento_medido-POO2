@@ -73,21 +73,7 @@ class AutomaticoTest {
         verify(appUserMock, never()).finalizarEstacionamiento();
         verify(notificadorMock, never()).enviarNotificacion(anyString());
     }
-    
-    @Test
-    public void testAlertaFinSinEstacionamientoVigenteYMismaZona() {
-     
-        when(appUserMock.consultarVigencia()).thenReturn(false);
-        when(appUserMock.esMismoPuntoDeInicio()).thenReturn(true);
-        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
-
-        automatico.alertaFin(appUserMock);
-
-        // Verifica que no se haya llamado enviarNotificacion() ni a finalizarEstacionamiento()
-        verify(appUserMock, never()).finalizarEstacionamiento();
-        verify(notificadorMock, never()).enviarNotificacion(anyString());
-    }
-    
+   
     
     @Test
     public void testAlertaFinSinEstacionamientoVigenteYEnDistintaZona() {
@@ -101,5 +87,20 @@ class AutomaticoTest {
         // Verifica que no se haya llamado enviarNotificacion() ni a finalizarEstacionamiento()
         verify(appUserMock, never()).finalizarEstacionamiento();
         verify(notificadorMock, never()).enviarNotificacion(anyString());
+    }
+    
+    
+  
+    @Test
+    public void testSiNoHayEstacionamientoVigenteNoSeConsultaPorElPunto() {
+     
+        when(appUserMock.consultarVigencia()).thenReturn(false);
+        when(appUserMock.getNotificador()).thenReturn(notificadorMock);
+
+        automatico.alertaFin(appUserMock);
+        
+        //Verfica que si no hay un estacionamiento vigente, no se consulta por el punto
+        verify(appUserMock).consultarVigencia();
+        verify(appUserMock, never()).esMismoPuntoDeInicio();
     }
 }
