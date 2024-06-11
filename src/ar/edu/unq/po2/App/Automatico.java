@@ -16,11 +16,11 @@ public class Automatico implements Modo {
 		if (app.consultarVigencia()) {
 			try {
 				app.finalizarEstacionamiento();
+				app.getNotificador().
+				enviarNotificacion("Estacionamiento finalizado.");
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.err.println("Ocurrió un error al finalizar el estacionamiento: " + e.getMessage());
 			}
-			app.getNotificador().
-			enviarNotificacion("Estacionamiento finalizado.");
 		}
 	}
 
