@@ -23,28 +23,19 @@ public class EAplicacion extends Estacionamiento{
 		this.app = app;
 	}
 
-	//Settea la hora de fin
+	//Settea la hora de fin y le manda un mensaje a la app para que descuente el saldo 
 	@Override
 	public void finalizar(LocalTime hora) {
 		this.setHoraFin(hora);
-	}
-	
-	//Calcula la hora de fin a partir de la hora de inicio y la cantidad max de horas permitidas
-	public LocalTime calcularHoraFin() {
-		return this.horaInicio.
-				plusHours(this.app.calculoHoraMaxima());
+		app.descontarSaldo(this.costoTotal());
 	}
 
-
-	@Override
 	public Double costoTotal() {
 		return this.duracionTotal()* app.getSistema().getPrecioPorHora();
 	}
 
 
-	@Override
 	public int duracionTotal() {
-		// TODO Auto-generated method stub
 		return (int) this.getHoraInicio().until(this.getHoraFin(), ChronoUnit.HOURS);
 	}
 

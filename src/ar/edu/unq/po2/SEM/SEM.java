@@ -71,6 +71,10 @@ public class SEM {
 		return infracciones;
 	}
 	
+	public LocalTime getHoraFin() {
+		return horaFin;
+	}
+	
 
 	public void addCompra(Compra compra) {
 		compras.add(compra);
@@ -101,16 +105,20 @@ public class SEM {
 		suscripcionManager.notificar();
 	}
 	
+	
+	//Indica si la patente pasada por parametros corresponde a un estacionamiento vigente
 	public boolean verificarEstacionamientoConVigencia(String patente) {		
 		return this.estacionamientosVigentes().stream()
 								     		   .anyMatch(e -> e.getPatente() == patente);
 	}
+	
 	
 	//Genera un infraccion y la guarda
 	public void generarInfraccion(String patente, Inspector inspector) {
 		infracciones.add(new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, inspector.getZonaID()));
 		suscripcionManager.notificar();
 	}
+	
 	
 	//Devuelve una lista con todos los estacionamientos vigentes 
 	public List<Estacionamiento> estacionamientosVigentes() {
@@ -127,6 +135,7 @@ public class SEM {
 												  .findFirst()
 												  .get();
 	}
+	
 	
 	public boolean buscarZonaPorID(String id) {
 		return(

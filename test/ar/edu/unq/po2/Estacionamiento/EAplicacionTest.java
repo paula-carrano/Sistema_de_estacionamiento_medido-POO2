@@ -97,13 +97,6 @@ class EAplicacionTest {
 	
 	    assertFalse(est.estaVigente(LocalTime.of(16, 1)));
 	}
-	
-	@Test
-	void testCalcularHoraFin() {
-		when(app.calculoHoraMaxima()).thenReturn(3);
-		est.setHoraInicio(LocalTime.of(13, 0));
-		assertEquals(LocalTime.of(16, 0), est.calcularHoraFin());
-	}
 
 	@Test
 	void testDuracionTotal() {

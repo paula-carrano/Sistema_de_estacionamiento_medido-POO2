@@ -127,7 +127,7 @@ public class AppUser implements MovementSensor{
 	//De lo contrario, notifica una excepcion
 	public void finalizarEstacionamiento() throws Exception {
 		
-		try{Estacionamiento estacionamiento = this.sistema.estacionamientoConPatente(this.patente);
+		try{EAplicacion estacionamiento = (EAplicacion) this.sistema.estacionamientoConPatente(this.patente);
 			estacionamiento.finalizar(LocalTime.now());
 			this.notificador.enviarNotificacion(
 				 " - Hora Inicio: " + estacionamiento.getHoraInicio()
@@ -149,7 +149,7 @@ public class AppUser implements MovementSensor{
 	    if (horaMaxima.isAfter(this.sistema.getHoraFin())) {
 	        return this.sistema.getHoraFin();
 	    } else {
-	        return horaMaxima;
+	        return horaMaxima; //fgdf
 	    }
 	}
 

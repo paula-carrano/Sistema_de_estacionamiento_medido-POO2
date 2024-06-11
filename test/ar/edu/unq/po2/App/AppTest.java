@@ -75,10 +75,10 @@ class AppTest {
         app.finalizarEstacionamiento();
 
         verify(notificador).enviarNotificacion(
-            "Hora Inicio: " + estacionamiento.getHoraInicio()
+              " - Hora Inicio: " + estacionamiento.getHoraInicio()
             + " - Hora de Finalizacion: " + estacionamiento.getHoraFin()
             + " - Duracion total: " + estacionamiento.duracionTotal()
-            + "- Costo total: " + estacionamiento.costoTotal()
+            + " - Costo total: " + estacionamiento.costoTotal()
         );
     }
 	
