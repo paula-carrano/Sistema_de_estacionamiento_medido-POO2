@@ -1,6 +1,7 @@
 package ar.edu.unq.po2.Estacionamiento;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Punto.Punto;
@@ -28,7 +29,7 @@ public class EAplicacion extends Estacionamiento{
 		this.setHoraFin(hora);
 	}
 	
-	//Calcula la hora de fin a partir de la hora de inicio y la cantidad de horas compradas
+	//Calcula la hora de fin a partir de la hora de inicio y la cantidad max de horas permitidas
 	public LocalTime calcularHoraFin() {
 		return this.horaInicio.
 				plusHours(this.app.calculoHoraMaxima());
@@ -36,21 +37,15 @@ public class EAplicacion extends Estacionamiento{
 
 
 	@Override
-	public int costoTotal() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Double costoTotal() {
+		return this.duracionTotal()* app.getSistema().getPrecioPorHora();
 	}
 
 
 	@Override
 	public int duracionTotal() {
 		// TODO Auto-generated method stub
-		return 0;
+		return (int) this.getHoraInicio().until(this.getHoraFin(), ChronoUnit.HOURS);
 	}
 
-
-	public void finalizar() {
-		// TODO Auto-generated method stub
-		
-	}
 }

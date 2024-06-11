@@ -68,6 +68,10 @@ public class AppUser implements MovementSensor{
 		return this.modo;
 	}
 	
+	public SEM getSistema() {
+		return this.sistema;
+	}
+	
 	// Metodo para apagar el MovementSensor.
 	public void apagarAlertas() {
 		this.setEstado(new Apagado());
@@ -113,12 +117,12 @@ public class AppUser implements MovementSensor{
 			.stream().filter(e -> this.patente.
 				equals(e.getPatente())).findFirst()
 				.get();
+			estacionamiento.finalizar(LocalTime.now());
 			this.notificador.enviarNotificacion(
 				"Hora Inicio: " + estacionamiento.getHoraInicio()
-				+ " - Hora de Finalizacion: " +
-					LocalTime.now() +
-				" - Duracion total: " + estacionamiento.duracionTotal()
-				+ "- Costo total: " + estacionamiento.costoTotal()
+				+" - Hora de Finalizacion: " + estacionamiento.getHoraFin() 
+				+" - Duracion total: " + estacionamiento.duracionTotal()
+				+"- Costo total: " + estacionamiento.costoTotal()
 					);
 		} catch (Exception e) {
 			this.notificador.enviarNotificacion(
