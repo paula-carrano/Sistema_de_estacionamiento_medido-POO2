@@ -108,18 +108,13 @@ public class AppUser implements MovementSensor{
 	}
 	
 	public void finalizarEstacionamiento() throws Exception {
-		try{Estacionamiento estacionamiento =
-			this.sistema.estacionamientosVigentes()
-			.stream().filter(e -> this.patente.
-				equals(e.getPatente())).findFirst()
-				.get();
-			this.notificador.enviarNotificacion(
-				"Hora Inicio: " + estacionamiento.getHoraInicio()
-				+ " - Hora de Finalizacion: " +
-					LocalTime.now() +
-				" - Duracion total: " + estacionamiento.duracionTotal()
-				+ "- Costo total: " + estacionamiento.costoTotal()
-					);
+		try{Estacionamiento estacionamiento = this.sistema.estacionamientoConPatente(this.patente);
+			this.notificador.enviarNotificacion
+							("Hora Inicio: " + estacionamiento.getHoraInicio() +
+							" - Hora de Finalizacion: " + estacionamiento.getHoraFin() +
+							" - Duracion total: " + estacionamiento.duracionTotal() +
+							"- Costo total: " + estacionamiento.costoTotal()
+							);
 		} catch (Exception e) {
 			this.notificador.enviarNotificacion(
 				"No existe un estacionamiento para esta patente.");
