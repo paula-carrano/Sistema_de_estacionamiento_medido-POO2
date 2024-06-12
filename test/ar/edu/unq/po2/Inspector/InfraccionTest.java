@@ -7,67 +7,49 @@
 	import org.junit.jupiter.api.BeforeEach;
 	import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.po2.SEM.Zona;
+
 	
 	class InfraccionTest {
-	    private Infraccion infraccion;
+		private Infraccion infraccion;
+	    private Inspector inspector;
+	    private Zona zona;
 	    private LocalDate fecha;
 	    private LocalTime hora;
-	    private Inspector inspectorMock;
 	    private String patente;
-	    private String zonaID;
-	
+
 	    @BeforeEach
 	    public void setUp() {
-	        fecha = LocalDate.of(2024, 6, 6);
-	        hora = LocalTime.of(14, 30);
+	        inspector = new Inspector("Inspector1", null, "Zona1");
+	        zona = new Zona(inspector,"Zona 1");
+	        fecha = LocalDate.now();
+	        hora = LocalTime.now();
 	        patente = "ABC123";
-	        zonaID = "Zona1";
-	        
-	        // Crear un mock de Inspector
-	        inspectorMock = mock(Inspector.class);
-	        when(inspectorMock.getInspectorID()).thenReturn("123");
-	        when(inspectorMock.getZonaID()).thenReturn("Zona1");
-	        infraccion = new Infraccion(fecha, hora, inspectorMock, patente, zonaID);
+	        infraccion = new Infraccion(fecha, hora, inspector, patente, zona);
 	    }
-	
+
 	    @Test
 	    public void testGetFecha() {
 	        assertEquals(fecha, infraccion.getFecha());
 	    }
-	
+
 	    @Test
 	    public void testGetHora() {
 	        assertEquals(hora, infraccion.getHora());
 	    }
-	
+
 	    @Test
 	    public void testGetInspector() {
-	        assertEquals(inspectorMock, infraccion.getInspector());
+	        assertEquals(inspector, infraccion.getInspector());
 	    }
-	
+
 	    @Test
 	    public void testGetPatente() {
 	        assertEquals(patente, infraccion.getPatente());
 	    }
-	
+
 	    @Test
-	    public void testGetZonaID() {
-	        assertEquals(zonaID, infraccion.getZonaID());
-	    }
-	
-	    @Test
-	    public void testConstructor() {
-	        LocalDate fecha = LocalDate.of(2024, 6, 20);
-	        LocalTime hora = LocalTime.of(12, 0);
-	        
-	        // Crear la infracción usando el mock de Inspector
-	        Infraccion infraccion = new Infraccion(fecha, hora, inspectorMock, "ABC123", inspectorMock.getZonaID());
-	
-	        // Verificar las propiedades de la infracción
-	        assertEquals(fecha, infraccion.getFecha());
-	        assertEquals(hora, infraccion.getHora());
-	        assertEquals(inspectorMock, infraccion.getInspector());
-	        assertEquals("ABC123", infraccion.getPatente());
-	        assertEquals(inspectorMock.getZonaID(), infraccion.getZonaID());
+	    public void testGetZona() {
+	        assertEquals(zona, infraccion.getZona());
 	    }
 	}

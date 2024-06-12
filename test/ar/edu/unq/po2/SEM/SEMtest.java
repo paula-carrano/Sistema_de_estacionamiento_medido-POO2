@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
 import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
+import ar.edu.unq.po2.Inspector.Infraccion;
 import ar.edu.unq.po2.Inspector.Inspector;
 
 class SEMtest {
@@ -32,9 +33,7 @@ class SEMtest {
 		estacionamiento = mock(Estacionamiento.class);
 		app = mock(AppUser.class);
 		inspector = mock(Inspector.class);
-		
-		sistema = new SEM();
-	
+		sistema = new SEM();	
 	}
 
 	
@@ -107,11 +106,20 @@ class SEMtest {
 	@Test
 	void testGenerarInfraccion () {
 		
-		assertTrue(sistema.getInfracciones().isEmpty());
-		
-		sistema.generarInfraccion("ABC123", inspector);
-		
-		assertEquals(sistema.getInfracciones().size(), 1);
+		 assertTrue(sistema.getInfracciones().isEmpty());
+
+		    when(inspector.getZonaID()).thenReturn("zona1");
+		    
+		    zona = new Zona(inspector, "zona1");
+		    sistema.addZona(zona);
+		    
+		    sistema.generarInfraccion("ABC123", inspector);
+		    
+		    assertEquals(1, sistema.getInfracciones().size());
+		    
+		    Infraccion infraccionGenerada = sistema.getInfracciones().get(0);
+		    assertEquals("ABC123", infraccionGenerada.getPatente());
+		    assertEquals(inspector, infraccionGenerada.getInspector());
 	}
 	
 	
@@ -138,4 +146,29 @@ class SEMtest {
 		assertFalse(sistema.verificarEstacionamientoConVigencia("DEF456"));
 	}
 	
+	@Test
+	void testEstacionamientoConPatente() {
+		when(estacionamiento.estaVigente(any(LocalTime.class))).thenReturn(true);
+	    when(estacionamiento.getPatente()).thenReturn("ABC123");
+	    
+	    sistema.addEstacionamiento(estacionamiento);
+
+	    assertEquals(estacionamiento, sistema.estacionamientoConPatente("ABC123"));
+	}
+	
+	@Test
+	void testBuscarZonaPorID() {
+		zona = new Zona(inspector, "zona1");
+	    sistema.addZona(zona);
+	    
+	    assertTrue(sistema.buscarZonaPorID(zona.getZonaID()));
+	}
+	
+	  @Test
+	    void testGetHoraFin() {
+	        LocalTime horaEsperada = LocalTime.of(20, 0);
+	        LocalTime horaFinObtenida = sistema.getHoraFin();
+
+	        assertEquals(horaEsperada, horaFinObtenida, "La hora de finalización debería ser 20:00");
+	    }
 }

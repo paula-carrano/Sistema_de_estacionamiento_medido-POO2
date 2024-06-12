@@ -16,10 +16,10 @@ public class Zona {
 		this.setInspector(inspector);
 		this.setZonaID(zonaID);
 		this.puntosDeVenta = new ArrayList<PuntoDeVenta>();
-		this.setInspectorZonaID();
+		this.setInspectorZonaID(zonaID);
 	}
 	
-	
+
 
 	//Setters
 	private void setInspector(Inspector inspector) {
@@ -29,11 +29,12 @@ public class Zona {
 	private void setZonaID(String zonaID) {
 		this.zonaID = zonaID;
 	}
-	
-	private void setInspectorZonaID() {
-		this.inspector.setZonaID(zonaID);
+
+	private void setInspectorZonaID(String zonaID) {
+		inspector.setZonaID(zonaID);
 	}
-	
+
+
 	//Getters
 	public List<PuntoDeVenta> getPuntosDeVenta() {
 		return puntosDeVenta;

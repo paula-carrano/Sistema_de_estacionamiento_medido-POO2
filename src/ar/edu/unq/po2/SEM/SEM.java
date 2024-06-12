@@ -113,11 +113,19 @@ public class SEM {
 	
 	//Genera un infraccion y la guarda
 	public void generarInfraccion(String patente, Inspector inspector) {
-		infracciones.add(new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, inspector.getZonaID()));
+		infracciones.add(new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, this.buscarZonaDeInspector(inspector)));
 		suscripcionManager.notificar();
 	}
 	
 	
+	private Zona buscarZonaDeInspector(Inspector inspector) {
+		return zonas.stream()
+                .filter(z -> z != null && z.getZonaID().equals(inspector.getZonaID()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No se encontró ninguna zona para el inspector: " + inspector.getInspectorID()));
+	}
+
+
 	//Devuelve una lista con todos los estacionamientos vigentes 
 	public List<Estacionamiento> estacionamientosVigentes() {
 		return estacionamientos.stream()
