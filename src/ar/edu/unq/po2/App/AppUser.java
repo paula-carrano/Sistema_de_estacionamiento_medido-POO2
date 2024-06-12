@@ -40,7 +40,7 @@ public class AppUser implements MovementSensor{
 		this.sistema = sistema;
 	}
 	
-	public void setModo(Modo modo) {
+	protected void setModo(Modo modo) {
 		this.modo = modo;
 	}
 	

@@ -27,12 +27,10 @@ class AppTest {
 	private EAplicacion estacionamiento;
 	private Punto punto;
 	private Modo modo;
-	private Modo modo2;
 	private Estado mockEstado;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		modo2 = mock(Modo.class);
 		modo = mock(Modo.class);
 		sistema = mock(SEM.class);
 		notificador = mock(ServicioNotificacion.class);
