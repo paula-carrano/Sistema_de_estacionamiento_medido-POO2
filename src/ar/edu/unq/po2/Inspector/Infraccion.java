@@ -19,12 +19,13 @@ public class Infraccion {
     	this.setHora(hora);
     	this.setInspector(inspector);
     	this.setPatente(patente);
-    	this.zona(zona);
+    	this.setZona(zona);
     }
 
-    //Getters and setters
-    private void zona(Zona zona) {
-		this.zona=zona;
+    
+    // setters
+    private void setZona(Zona zona) {
+		this.zona=zona;	
 	}
 
 	private void setPatente(String patente) {
@@ -38,15 +39,15 @@ public class Infraccion {
 
 
 	private void setHora(LocalTime hora) {
-		this.hora=hora;
-		
+		this.hora=hora;		
 	}
 
 	private void setFecha(LocalDate fecha) {
 		this.fecha=fecha;
-		
 	}
 
+
+	// Getters.
 	public LocalDate getFecha() {
 		return fecha;
 	}
