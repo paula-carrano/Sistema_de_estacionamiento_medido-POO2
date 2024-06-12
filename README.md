@@ -16,14 +16,14 @@ En nuestro proyecto, hemos aplicado patrones de diseño reconocidos como Observe
 
 En cuanto a nuestra selección tecnológica, hemos optado por JAVA para la implementación de clases e interfaces. Además, hemos utilizado Mockito para realizar pruebas, lo que nos ha permitido validar el comportamiento de nuestras clases de manera eficiente y confiable.
 
-Para obtener más detalles de la documentación, por favor haga clic <a href="https://drive.google.com/file/d/1ScaGx-x_Nk3A2QuJy5epSthUuj_TmxPa/view?usp=sharing" target="_blank">aquí</a>.
+Para obtener más detalles de la documentación, por favor haga clic <a href="https://docs.google.com/document/d/1d5L7aa_HZ46cPGrPdm6_RC2SkM539XtdSilQIBHYREY/edit?usp=sharing" target="_blank">aquí</a>.
 
 ## UML
 <div align="center">
 <img src="https://drive.google.com/uc?export=download&id=1ns8jQbxbThXoKVKQIPvkSNJ6XE6a9Gfv" />
 </div>
 </br>
-Para ver nuestro UML en detalle, por favor haga clic <a href="https://drive.google.com/file/d/1qdR5NnhkoLFew-fYpAhTktNd7XFAPyvB/preview" target="_blank">aquí</a>.
+Para ver nuestro UML en detalle, por favor haga clic <a href="https://app.diagrams.net/#G1ScaGx-x_Nk3A2QuJy5epSthUuj_TmxPa#%7B%22pageId%22%3A%22Nq1dEduO4GS8px7LW1f1%22%7D" target="_blank">aquí</a>.
 
 ---
 <div align="center">
@@ -31,4 +31,3 @@ Para ver nuestro UML en detalle, por favor haga clic <a href="https://drive.goog
 Este trabajo se realizó para la materia Programación Orientada a Objetos II de la Universidad Nacional de Quilmes. Año 2024.
 
 </div>
-
