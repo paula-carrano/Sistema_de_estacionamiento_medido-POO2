@@ -11,7 +11,7 @@ public abstract class Compra {
 	private int nroControl;
 	private LocalDate fecha;
 	private LocalTime hora;
-	private PuntoDeVenta punto;
+	private PuntoDeVenta puntoVenta;
 	
 	
 	// Setters.
@@ -19,8 +19,8 @@ public abstract class Compra {
 		this.nroControl = nroControl;
 	}
 	
-	protected void setPunto(PuntoDeVenta punto) {
-		this.punto = punto;
+	protected void setPunto(PuntoDeVenta puntoVenta) {
+		this.puntoVenta = puntoVenta;
 	}
 	
 	protected void setHora(LocalTime hora) {
