@@ -271,8 +271,15 @@ class AppTest {
     
     @Test
     public void testDriving() {
+    	// setUp.
+    	mockEstado = mock(Estado.class);
+        
+    	// Exsercise.
+    	app.setEstado(mockEstado);  // Inyecta el mock en AppUser
         app.driving();
-        verify(mockEstado).manejando(appUser);
+        
+        // Verify.
+        verify(mockEstado).manejando(app);
     }
 
 }
