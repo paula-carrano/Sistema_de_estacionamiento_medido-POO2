@@ -119,8 +119,10 @@ public class SEM {
 	
 	
 	private Zona buscarZonaDeInspector(Inspector inspector) {
-		return (Zona) zonas.stream()
-							.filter(z-> z.getZonaID() == inspector.getZonaID());
+		return zonas.stream()
+                .filter(z -> z != null && z.getZonaID().equals(inspector.getZonaID()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No se encontró ninguna zona para el inspector: " + inspector.getInspectorID()));
 	}
 
 
