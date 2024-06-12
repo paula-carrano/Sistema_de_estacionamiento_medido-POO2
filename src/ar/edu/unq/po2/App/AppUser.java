@@ -227,7 +227,6 @@ public class AppUser implements MovementSensor{
 	    return horaMaxima;
 	}
 	
-	
 	//Verifica si el punto actual es el mismo al del inicio del estacionamiento 
 	public boolean esMismoPuntoDeInicio() {
 		return this.punto == this.sistema.estacionamientoConPatente(this.patente).getPunto();

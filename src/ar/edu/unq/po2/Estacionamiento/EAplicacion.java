@@ -23,14 +23,6 @@ public class EAplicacion extends Estacionamiento{
 		this.app = app;
 	}
 
-	private void setPunto(Punto punto2) {
-		this.punto = punto2;
-	}
-	
-	// Getters.
-	public Punto getPunto() {
-		return this.punto;
-	}
 	
 	//Settea la hora de fin y le manda un mensaje a la app para que descuente el saldo 
 	@Override

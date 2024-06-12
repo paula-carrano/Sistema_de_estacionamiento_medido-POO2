@@ -9,6 +9,7 @@ public abstract class Estacionamiento {
 	private String patente;
 	protected LocalTime horaInicio;
 	protected LocalTime horaFin;
+	protected Punto punto;
 	
 	//Setters
 	protected void setPatente(String patente) {
@@ -23,7 +24,18 @@ public abstract class Estacionamiento {
 		this.horaFin = horaFin;
 	}
 	
+	// Temporal.
+	protected void setPunto(Punto punto2) {
+		this.punto = punto2;
+	}
+	
+	
 	//Getters
+		// Temporal.
+	public Punto getPunto() {
+		return this.punto;
+	}
+	
 	public LocalTime getHoraInicio() {
 		return this.horaInicio;
 	}
