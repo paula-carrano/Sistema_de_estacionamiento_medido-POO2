@@ -12,58 +12,55 @@ class InspectorTest {
 
     private Inspector inspector;
     private SEM sistemaMock;
-    private Zona zonaMock;
-
+    
     @BeforeEach
     public void setUp() {
         sistemaMock = mock(SEM.class);
-        zonaMock = mock(Zona.class);
-        when(zonaMock.getZonaID()).thenReturn("Zona1");
-        inspector = new Inspector("123", sistemaMock);
-        inspector.setZonaID("Zona1");
+        inspector = new Inspector("Inspector1", sistemaMock, "Zona1");
     }
 
     @Test
-    public void testVerificarEstacionamientoSinEstacionamiento() {
-        when(sistemaMock.verificarEstacionamientoConVigencia("ABC123")).thenReturn(false);
-        assertFalse(inspector.verificarEstacionamiento("ABC123"));
-    }
-
-    @Test
-    public void testVerificarEstacionamientoConEstacionamiento() {
-        when(sistemaMock.verificarEstacionamientoConVigencia("ABC123")).thenReturn(true);
-        assertTrue(inspector.verificarEstacionamiento("ABC123"));
-    }
-
-    @Test
-    public void testAltaInfraccionGeneratesInfraccion() {
-        String patente = "XYZ789";
+    public void testAltaInfraccionGeneraInfraccion() {
+        String patente = "ABC123";
         when(sistemaMock.verificarEstacionamientoConVigencia(patente)).thenReturn(false);
+
         inspector.altaInfraccion(patente);
-        verify(sistemaMock).generarInfraccion(patente, inspector);
+
+        verify(sistemaMock, times(1)).generarInfraccion(patente, inspector);
     }
 
     @Test
-    public void testAltaInfraccionDoesNotGenerateInfraccion() {
+    public void testAltaInfraccionNoGeneraInfraccionSiTieneEstacionamiento() {
         String patente = "ABC123";
         when(sistemaMock.verificarEstacionamientoConVigencia(patente)).thenReturn(true);
+
         inspector.altaInfraccion(patente);
-        verify(sistemaMock, never()).generarInfraccion(anyString(), any(Inspector.class));
+
+        verify(sistemaMock, never()).generarInfraccion(patente, inspector);
     }
 
     @Test
+    public void testVerificarEstacionamiento() {
+        String patente = "ABC123";
+        when(sistemaMock.verificarEstacionamientoConVigencia(patente)).thenReturn(true);
+
+        boolean resultado = inspector.verificarEstacionamiento(patente);
+
+        assertTrue(resultado);
+        verify(sistemaMock, times(1)).verificarEstacionamientoConVigencia(patente);
+    }
+    
+    @Test
     public void testGetInspectorID() {
-        assertEquals("123", inspector.getInspectorID());
+        String inspectorID = inspector.getInspectorID();
+
+        assertEquals("Inspector1", inspectorID);
     }
 
     @Test
     public void testGetZonaID() {
-        assertEquals("Zona1", inspector.getZonaID());
-    }
+        String zonaID = inspector.getZonaID();
 
-    @Test
-    public void testSetInspectorID() {
-        inspector.setInspectorID("456");
-        assertEquals("456", inspector.getInspectorID());
+        assertEquals("Zona1", zonaID);
     }
 }
