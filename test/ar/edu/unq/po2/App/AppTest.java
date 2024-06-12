@@ -23,7 +23,6 @@ class AppTest {
 
 	private AppUser app;
 	private SEM sistema;
-	private Modo modo;
 	private ServicioNotificacion notificador;
 	private EAplicacion estacionamiento;
 	private Punto punto;
@@ -32,7 +31,6 @@ class AppTest {
 	void setUp() throws Exception {
 		
 		sistema = mock(SEM.class);
-		modo = mock(Automatico.class);
 		notificador = mock(ServicioNotificacion.class);
 		estacionamiento = mock(EAplicacion.class);
 		punto = mock(Punto.class);

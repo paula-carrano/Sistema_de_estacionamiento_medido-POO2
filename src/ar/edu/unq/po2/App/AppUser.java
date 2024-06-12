@@ -111,6 +111,17 @@ public class AppUser implements MovementSensor{
 	}
 	
 	
+	//Cambiar modo 
+	public void cambiarAModoAutomatico() {
+		this.setModo(new Automatico());
+	}
+	
+	public void cambiarAModoManual() {
+		this.setModo(new Manual());
+	}
+	
+	
+	
 	//Indica si el estacionamiento hay un estacionamiento vigente
 	public boolean consultarVigencia() {
 		return this.sistema.verificarEstacionamientoConVigencia(this.patente);
@@ -200,7 +211,6 @@ public class AppUser implements MovementSensor{
 	
 	//Calcula la hora maxima permitida a partir del saldo
 	public LocalTime calcularHoraMaxima() {
-		
 		double saldoActual = this.getSaldo();
 	    double precioPorHora = sistema.getPrecioPorHora();
 	    LocalTime horaFinSistema = sistema.getHoraFin();
@@ -209,9 +219,9 @@ public class AppUser implements MovementSensor{
 	    double costoHasta20hs = precioPorHora * (horaFinSistema.getHour() - horaActual.getHour());
 	    
 	    //Calculo en base a si mi saldo me alcanza hasta las 20, sino calcular hasta donde alcance.
-	    LocalTime horaMaxima = (saldoActual >= costoHasta20hs) ? LocalTime.of(20, 0) : horaActual.plusHours((int) (saldoActual / precioPorHora));
+	    LocalTime horaMaxima = (saldoActual >= costoHasta20hs) ? horaFinSistema : horaActual.plusHours((int) (saldoActual / precioPorHora));
 
-	    return (horaMaxima.isAfter(horaFinSistema) ? horaFinSistema : horaMaxima);
+	    return horaMaxima;
 	}
 	
 	
