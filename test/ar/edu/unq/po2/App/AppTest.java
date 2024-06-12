@@ -281,5 +281,18 @@ class AppTest {
         // Verify.
         verify(mockEstado).manejando(app);
     }
+    
+    @Test
+    public void testWalking() {
+    	// setUp.
+    	mockEstado = mock(Estado.class);
+        
+    	// Exsercise.
+    	app.setEstado(mockEstado);  // Inyecta el mock en AppUser
+        app.walking();
+        
+        // Verify.
+        verify(mockEstado).caminando(app);
+    }
 
 }
