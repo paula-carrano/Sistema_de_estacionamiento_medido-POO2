@@ -187,7 +187,7 @@ public class AppUser implements MovementSensor{
 	            estacionamiento.finalizar(LocalTime.now());
 	            notificarFinEstacionamiento(estacionamiento);	
 	        } catch (Exception e) {
-	        	this.notificador.enviarNotificacion("No existe un estacionamiento vigente para esta patente.");
+	        	 this.notificador.enviarNotificacion(e.getMessage());
 	        }
 	}
 	
@@ -203,7 +203,7 @@ public class AppUser implements MovementSensor{
 	private EAplicacion obtenerEstacionamientoVigente() {
         EAplicacion estacionamiento = (EAplicacion) this.sistema.estacionamientoConPatente(this.patente);
         if (estacionamiento == null) {
-            throw new RuntimeException("No existe un estacionamiento vigente para esta patente.");
+        	throw new NoExisteEstacionamientoVigenteException("No existe un estacionamiento vigente para esta patente.");
         }
         return estacionamiento;
     }
