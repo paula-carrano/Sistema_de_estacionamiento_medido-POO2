@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.App;
+package ar.edu.unq.po2.MovementSensor;
 
 public interface MovementSensor {
 

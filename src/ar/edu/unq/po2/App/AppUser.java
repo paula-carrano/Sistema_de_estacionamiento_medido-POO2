@@ -3,10 +3,16 @@ package ar.edu.unq.po2.App;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
 import ar.edu.unq.po2.Exceptions.*;
+import ar.edu.unq.po2.Modo.Automatico;
+import ar.edu.unq.po2.Modo.Manual;
+import ar.edu.unq.po2.Modo.Modo;
+import ar.edu.unq.po2.MovementSensor.MovementSensor;
 import ar.edu.unq.po2.Punto.Punto;
 import ar.edu.unq.po2.SEM.SEM;
+import ar.edu.unq.po2.ServicioNotificacion.ServicioNotificacion;
 
 public class AppUser implements MovementSensor{
 	

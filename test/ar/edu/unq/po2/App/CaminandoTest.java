@@ -4,6 +4,8 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.po2.Modo.Modo;
+
 class CaminandoTest {
 	
 	private Caminando caminando;

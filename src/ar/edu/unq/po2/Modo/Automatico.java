@@ -1,4 +1,6 @@
-package ar.edu.unq.po2.App;
+package ar.edu.unq.po2.Modo;
+
+import ar.edu.unq.po2.App.AppUser;
 
 public class Automatico implements Modo {
 

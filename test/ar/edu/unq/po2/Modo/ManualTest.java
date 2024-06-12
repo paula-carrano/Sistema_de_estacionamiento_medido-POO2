@@ -1,10 +1,14 @@
-package ar.edu.unq.po2.App;
+package ar.edu.unq.po2.Modo;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ar.edu.unq.po2.App.AppUser;
+import ar.edu.unq.po2.Modo.Manual;
+import ar.edu.unq.po2.ServicioNotificacion.ServicioNotificacion;
 
 class ManualTest {
 	
