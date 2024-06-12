@@ -26,10 +26,11 @@ class AppTest {
 	private ServicioNotificacion notificador;
 	private EAplicacion estacionamiento;
 	private Punto punto;
+	private Modo modo;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		
+		modo = mock(Modo.class);
 		sistema = mock(SEM.class);
 		notificador = mock(ServicioNotificacion.class);
 		estacionamiento = mock(EAplicacion.class);
@@ -220,5 +221,50 @@ class AppTest {
         when(estacionamiento.getPunto()).thenReturn(otroPunto);
 
         assertFalse(app.esMismoPuntoDeInicio());
+    }
+	
+	@Test
+	public void testGetModo() {
+
+		// setUp
+		app.setModo(modo);
+		
+		// verify.
+		assertEquals(modo, app.getModo());
+	}
+	
+	@Test
+	public void testGetSistema() {
+		assertEquals(sistema, app.getSistema());
+	}
+	
+	@Test
+	public void testGetNotificador() {		
+		assertEquals(notificador, app.getNotificador());
+	}
+
+	
+    @Test
+    public void testApagarAlertas() {
+        app.apagarAlertas();
+        assertTrue(app.getEstado() instanceof Apagado);
+    }
+
+    @Test
+    public void testEncenderAlertas() {
+        app.encenderAlertas();
+        assertTrue(app.getEstado() instanceof Manejando);
+    }
+
+    @Test
+    public void testCambiarAModoAutomatico() {
+        app.cambiarAModoAutomatico();
+        assertTrue(app.getModo() instanceof Automatico);
+    }
+
+    @Test
+    public void testCambiarAModoManual() {
+        app.cambiarAModoManual();
+        assertTrue(app.getModo() instanceof Manual);
     }
 }

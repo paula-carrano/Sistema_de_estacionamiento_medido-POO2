@@ -19,7 +19,8 @@ public class AppUser implements MovementSensor{
 	private Punto punto;
 	
 	
-	public AppUser(String patente, SEM sistema, ServicioNotificacion notificador, Punto punto) {
+	public AppUser(String patente, SEM sistema, 
+			ServicioNotificacion notificador, Punto punto) {
 		this.setPatente(patente);
 		this.setSistema(sistema);
 		this.setModo(new Manual()); //Inicia en modo manual
@@ -78,6 +79,9 @@ public class AppUser implements MovementSensor{
 		return this.notificador;
 	}
 	
+	protected Estado getEstado() {
+		return this.estado;
+	}
 	
 	//Acreditar y desacreditar saldo
 	public void registrarSaldo(double monto) {
@@ -87,7 +91,6 @@ public class AppUser implements MovementSensor{
 	public void descontarSaldo(double monto) {
 		this.setSaldo(this.saldo - monto);
 	}
-	
 	
 	//Alertas del movement sensor
 	@Override
