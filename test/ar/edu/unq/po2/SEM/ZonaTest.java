@@ -2,6 +2,10 @@ package ar.edu.unq.po2.SEM;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ar.edu.unq.po2.Inspector.Inspector;
@@ -15,7 +19,7 @@ class ZonaTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		inspector = new Inspector("123", mock(SEM.class)); 
+		inspector = new Inspector("123", mock(SEM.class),"z1"); 
         zona = new Zona(inspector, "z1");
         puntoDeVenta = new PuntoDeVenta(mock(SEM.class));
 	}
