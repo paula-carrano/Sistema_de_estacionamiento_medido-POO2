@@ -102,4 +102,9 @@ class EAplicacionTest {
 		when(sistema.getPrecioPorHora()).thenReturn(10.0);
 		assertEquals(30.0, est.costoTotal());
 	}
+	
+	@Test
+	public void testGetPunto() {
+		assertEquals(punto, est.getPunto());
+	}
 }
