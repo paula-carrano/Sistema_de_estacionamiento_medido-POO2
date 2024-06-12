@@ -27,6 +27,7 @@ class AppTest {
 	private EAplicacion estacionamiento;
 	private Punto punto;
 	private Modo modo;
+	private Estado mockEstado;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -267,4 +268,11 @@ class AppTest {
         app.cambiarAModoManual();
         assertTrue(app.getModo() instanceof Manual);
     }
+    
+    @Test
+    public void testDriving() {
+        app.driving();
+        verify(mockEstado).manejando(appUser);
+    }
+
 }
