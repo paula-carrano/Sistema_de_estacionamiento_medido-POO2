@@ -2,11 +2,7 @@ package ar.edu.unq.po2.App;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -24,6 +20,9 @@ import ar.edu.unq.po2.ServicioNotificacion.ServicioNotificacion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+
 
 class AppTest {
 
@@ -122,14 +121,14 @@ class AppTest {
 	@Test
     void testIniciarEstacionamientoConSaldoSuficienteYSinEstacionamientoVigente() {
 		//Se inicia un estacionamiento, se lo manda al sistema y notifica
-		
 		app.registrarSaldo(50);
+		
 		when(app.consultarVigencia()).thenReturn(false); 
-        ArgumentCaptor<EAplicacion> captor = ArgumentCaptor.forClass(EAplicacion.class);
-
         when(sistema.getHoraFin()).thenReturn(LocalTime.of(20,00));
         when(sistema.getPrecioPorHora()).thenReturn(40.0);
         
+        ArgumentCaptor<EAplicacion> captor = ArgumentCaptor.forClass(EAplicacion.class);
+
         app.iniciarEstacionamiento();
 
         verify(sistema).addEstacionamiento(captor.capture());
@@ -137,11 +136,11 @@ class AppTest {
         assertNotNull(estacionamiento);
         
         LocalTime horaInicio = estacionamiento.getHoraInicio().truncatedTo(ChronoUnit.SECONDS);
-        LocalTime horaMaxima = app.calcularHoraMaxima().truncatedTo(ChronoUnit.SECONDS);
+        LocalTime horaMaximaCalculada = app.calcularHoraMaxima(horaInicio).truncatedTo(ChronoUnit.SECONDS);
         
         verify(notificador).enviarNotificacion(
             " - Hora Inicio: " + horaInicio +
-            " - Hora maxima: " + horaMaxima
+            " - Hora maxima: " + horaMaximaCalculada
         );
     }
 	
@@ -174,11 +173,12 @@ class AppTest {
 	
 	 @Test
 	    public void testCalcularHoraMaximaConSaldoSuficiente() {
+		 	LocalTime horaActual = LocalTime.of(15, 0);
 		 	app.registrarSaldo(80);
 		    when(sistema.getPrecioPorHora()).thenReturn(40.0);
 
-		    LocalTime expectedHoraMaxima = LocalTime.now().plusHours(2).truncatedTo(ChronoUnit.SECONDS);
-		    LocalTime actualHoraMaxima = app.calcularHoraMaxima().truncatedTo(ChronoUnit.SECONDS);
+		    LocalTime expectedHoraMaxima = horaActual.plusHours(2).truncatedTo(ChronoUnit.SECONDS);
+		    LocalTime actualHoraMaxima = app.calcularHoraMaxima(horaActual).truncatedTo(ChronoUnit.SECONDS);
 
 		    assertEquals(expectedHoraMaxima, actualHoraMaxima);
 	}
@@ -199,23 +199,23 @@ class AppTest {
 	
 	@Test
     public void testCalcularHoraMaximaExcedeHoraFin() {
-		
-	    LocalTime horaFinSistema = LocalTime.of(20, 0);
+		 LocalTime horaFinSistema = LocalTime.of(20, 0);
+		 LocalTime horaActual = LocalTime.of(19, 0);
 
-	    when(sistema.getHoraFin()).thenReturn(horaFinSistema);
-	    
-	    app.registrarSaldo(80);
-	    when(sistema.getPrecioPorHora()).thenReturn(40.0);
+		    when(sistema.getHoraFin()).thenReturn(horaFinSistema);
+		    
+		    app.registrarSaldo(80);
+		    when(sistema.getPrecioPorHora()).thenReturn(40.0);
 
-	    LocalTime actualHoraMaxima = app.calcularHoraMaxima();
+		    LocalTime actualHoraMaxima = app.calcularHoraMaxima(horaActual);
 
-	    // La hora máxima calculada > hora actual y <= hora de finalización del sistema
-	    assertTrue(actualHoraMaxima.isAfter(LocalTime.now()) && !actualHoraMaxima.isAfter(horaFinSistema));
+		    // La hora máxima calculada > hora actual y <= hora de finalización del sistema
+		    assertTrue(actualHoraMaxima.isAfter(LocalTime.now()) && !actualHoraMaxima.isAfter(horaFinSistema));
     }
 	
 	@Test
 	public void testCalcularHoraMaximaInsuficienteSaldo() {
-        LocalTime horaFinSistema = LocalTime.of(20, 0);
+		LocalTime horaFinSistema = LocalTime.of(20, 0);
 
         // Mockear los métodos del sistema
         when(sistema.getHoraFin()).thenReturn(horaFinSistema);
@@ -225,16 +225,16 @@ class AppTest {
         app.registrarSaldo(30.0); // Saldo insuficiente para cubrir hasta las 20:00
 
         // Obtener la hora actual y asegurar que se usa una hora fija
-        LocalTime horaActual = LocalTime.now();
+        LocalTime horaActual = LocalTime.of(15, 0);
         
         // Validar el tiempo dentro del rango esperado
         assertTrue(horaActual.isBefore(horaFinSistema));
 
         // Ejecutar el método a probar
-        LocalTime actualHoraMaxima = app.calcularHoraMaxima();
+        LocalTime actualHoraMaxima = app.calcularHoraMaxima(horaActual);
 
         // Calcular la hora máxima esperada basada en el saldo disponible
-        LocalTime expectedHoraMaxima = horaActual.plusHours(3); // 30.0 / 10.0 = 3 horas
+        LocalTime expectedHoraMaxima = horaActual.plusHours(3);
 
         // La hora máxima calculada debe ser igual a la hora esperada
         assertEquals(expectedHoraMaxima, actualHoraMaxima);
@@ -243,6 +243,7 @@ class AppTest {
 	@Test
     public void testCalcularHoraMaximaSuficienteSaldo() {
         LocalTime horaFinSistema = LocalTime.of(20, 0);
+        LocalTime horaActual = LocalTime.of(15, 0);
 
         // Mockear los métodos del sistema
         when(sistema.getHoraFin()).thenReturn(horaFinSistema);
@@ -250,15 +251,12 @@ class AppTest {
 
         // Mockear el saldo actual
         app.registrarSaldo(100.0); // Suficiente saldo
-
-        // Obtener la hora actual y asegurar que se usa una hora fija
-        LocalTime horaActual = LocalTime.now();
         
         // Validar el tiempo dentro del rango esperado
         assertTrue(horaActual.isBefore(horaFinSistema));
 
         // Ejecutar el método a probar
-        LocalTime actualHoraMaxima = app.calcularHoraMaxima();
+        LocalTime actualHoraMaxima = app.calcularHoraMaxima(horaActual);
 
         // La hora máxima debería ser igual a la hora de fin del sistema
         assertEquals(horaFinSistema, actualHoraMaxima);
