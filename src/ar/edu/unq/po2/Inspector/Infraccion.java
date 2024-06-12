@@ -25,7 +25,6 @@ public class Infraccion {
     //Getters and setters
     private void zona(Zona zona) {
 		this.zona=zona;
-		
 	}
 
 	private void setPatente(String patente) {

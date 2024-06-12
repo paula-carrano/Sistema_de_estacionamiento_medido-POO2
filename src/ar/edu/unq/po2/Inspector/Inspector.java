@@ -5,15 +5,26 @@ import ar.edu.unq.po2.SEM.*;
 public class Inspector {
     
 	private String inspectorID;
-    private Zona zona;
+    private String zonaID;
     private SEM sistema;
 
-    public Inspector(String inspectorID, SEM sistema) {
+    public Inspector(String inspectorID, SEM sistema, String zonaID) {
         this.setSistema(sistema);
         this.setInspectorID(inspectorID);
-        this.setZona(zona);
+        this.setZonaID(zonaID);
     }
-    
+
+
+	public void altaInfraccion(String patente) {
+        if (!this.verificarEstacionamiento(patente)) {
+            sistema.generarInfraccion(patente, this);
+        }
+    }
+
+    public boolean verificarEstacionamiento(String patente) {
+        return sistema.verificarEstacionamientoConVigencia(patente);
+    }
+
     // Getters y setters.
     public String getInspectorID() {
         return inspectorID;
@@ -27,24 +38,11 @@ public class Inspector {
 		this.sistema=sistema2;
     }
 
-	private void setZona(Zona zona2) {
-		this.zona=zona2;
-	}
-
-    public String getZona() {
-        return this.zona.getZonaID();
+    public String getZonaID() {
+        return zonaID;
     }
-
-	public void altaInfraccion(String patente) {
-        if (!this.verificarEstacionamiento(patente)) {
-            sistema.generarInfraccion(patente, this);
-        }
-    }
-
-    public boolean verificarEstacionamiento(String patente) {
-        return sistema.verificarEstacionamientoConVigencia(patente);
-    }
-
- 
     
+    public void setZonaID(String id) {
+    	this.zonaID=id;
+    }
 }
