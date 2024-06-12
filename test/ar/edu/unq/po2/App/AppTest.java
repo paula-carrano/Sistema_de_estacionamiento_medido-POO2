@@ -206,7 +206,58 @@ class AppTest {
 	    // La hora máxima calculada > hora actual y <= hora de finalización del sistema
 	    assertTrue(actualHoraMaxima.isAfter(LocalTime.now()) && !actualHoraMaxima.isAfter(horaFinSistema));
     }
+	
+	@Test
+	public void testCalcularHoraMaximaInsuficienteSaldo() {
+        LocalTime horaFinSistema = LocalTime.of(20, 0);
 
+        // Mockear los métodos del sistema
+        when(sistema.getHoraFin()).thenReturn(horaFinSistema);
+        when(sistema.getPrecioPorHora()).thenReturn(10.0);  // Precio por hora
+
+        // Mockear el saldo actual
+        app.registrarSaldo(30.0); // Saldo insuficiente para cubrir hasta las 20:00
+
+        // Obtener la hora actual y asegurar que se usa una hora fija
+        LocalTime horaActual = LocalTime.now();
+        
+        // Validar el tiempo dentro del rango esperado
+        assertTrue(horaActual.isBefore(horaFinSistema));
+
+        // Ejecutar el método a probar
+        LocalTime actualHoraMaxima = app.calcularHoraMaxima();
+
+        // Calcular la hora máxima esperada basada en el saldo disponible
+        LocalTime expectedHoraMaxima = horaActual.plusHours(3); // 30.0 / 10.0 = 3 horas
+
+        // La hora máxima calculada debe ser igual a la hora esperada
+        assertEquals(expectedHoraMaxima, actualHoraMaxima);
+    }
+	
+	@Test
+    public void testCalcularHoraMaximaSuficienteSaldo() {
+        LocalTime horaFinSistema = LocalTime.of(20, 0);
+
+        // Mockear los métodos del sistema
+        when(sistema.getHoraFin()).thenReturn(horaFinSistema);
+        when(sistema.getPrecioPorHora()).thenReturn(10.0);  // Precio por hora
+
+        // Mockear el saldo actual
+        app.registrarSaldo(100.0); // Suficiente saldo
+
+        // Obtener la hora actual y asegurar que se usa una hora fija
+        LocalTime horaActual = LocalTime.now();
+        
+        // Validar el tiempo dentro del rango esperado
+        assertTrue(horaActual.isBefore(horaFinSistema));
+
+        // Ejecutar el método a probar
+        LocalTime actualHoraMaxima = app.calcularHoraMaxima();
+
+        // La hora máxima debería ser igual a la hora de fin del sistema
+        assertEquals(horaFinSistema, actualHoraMaxima);
+    }
+	
 	@Test
     public void testEsMismoPuntoDeInicio() {        
         when(sistema.estacionamientoConPatente("ABC123")).thenReturn(estacionamiento);
