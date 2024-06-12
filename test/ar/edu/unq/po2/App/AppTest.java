@@ -8,6 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
@@ -35,7 +36,7 @@ class AppTest {
 		notificador = mock(ServicioNotificacion.class);
 		estacionamiento = mock(EAplicacion.class);
 		punto = mock(Punto.class);
-		
+		when(sistema.getHoraFin()).thenReturn(LocalTime.of(20, 0));
 		app  = new AppUser("ABC123", sistema, notificador, punto);
 	}
 
@@ -129,9 +130,12 @@ class AppTest {
         EAplicacion estacionamiento = captor.getValue();
         assertNotNull(estacionamiento);
         
+        LocalTime horaInicio = estacionamiento.getHoraInicio().truncatedTo(ChronoUnit.SECONDS);
+        LocalTime horaMaxima = app.calcularHoraMaxima().truncatedTo(ChronoUnit.SECONDS);
+        
         verify(notificador).enviarNotificacion(
-            " - Hora Inicio: " + estacionamiento.getHoraInicio() +
-            " - Hora maxima: " + app.calcularHoraMaxima()
+            " - Hora Inicio: " + horaInicio +
+            " - Hora maxima: " + horaMaxima
         );
     }
 	
@@ -162,7 +166,17 @@ class AppTest {
 	    verify(notificador).enviarNotificacion("Ya hay un estacionamiento vigente.");
 	}
 	
-	
+	 @Test
+	    public void testCalcularHoraMaximaConSaldoSuficiente() {
+		 	app.registrarSaldo(80);
+		    when(sistema.getPrecioPorHora()).thenReturn(40.0);
+
+		    LocalTime expectedHoraMaxima = LocalTime.now().plusHours(2).truncatedTo(ChronoUnit.SECONDS);
+		    LocalTime actualHoraMaxima = app.calcularHoraMaxima().truncatedTo(ChronoUnit.SECONDS);
+
+		    assertEquals(expectedHoraMaxima, actualHoraMaxima);
+	}
+
 	@Test
 	public void testIniciarEstacionamientoConSaldoInsuficienteYSinEstacionamientoVigente() {
 		//No se inicia el estacionamiento y notifica que el saldop es insuficiente
@@ -176,4 +190,37 @@ class AppTest {
 
 	    verify(notificador).enviarNotificacion("No se puede iniciar estacionamiento, saldo insuficiente.");
 	}
+	
+	@Test
+    public void testCalcularHoraMaximaExcedeHoraFin() {
+		
+	    LocalTime horaFinSistema = LocalTime.of(20, 0);
+
+	    when(sistema.getHoraFin()).thenReturn(horaFinSistema);
+	    
+	    app.registrarSaldo(80);
+	    when(sistema.getPrecioPorHora()).thenReturn(40.0);
+
+	    LocalTime actualHoraMaxima = app.calcularHoraMaxima();
+
+	    // La hora máxima calculada > hora actual y <= hora de finalización del sistema
+	    assertTrue(actualHoraMaxima.isAfter(LocalTime.now()) && !actualHoraMaxima.isAfter(horaFinSistema));
+    }
+
+	@Test
+    public void testEsMismoPuntoDeInicio() {        
+        when(sistema.estacionamientoConPatente("ABC123")).thenReturn(estacionamiento);
+        when(estacionamiento.getPunto()).thenReturn(punto);
+
+        assertTrue(app.esMismoPuntoDeInicio());
+    }
+	
+	@Test
+    public void testNoEsMismoPuntoDeInicio() {        
+        Punto otroPunto = mock(Punto.class);
+        when(sistema.estacionamientoConPatente("ABC123")).thenReturn(estacionamiento);
+        when(estacionamiento.getPunto()).thenReturn(otroPunto);
+
+        assertFalse(app.esMismoPuntoDeInicio());
+    }
 }
