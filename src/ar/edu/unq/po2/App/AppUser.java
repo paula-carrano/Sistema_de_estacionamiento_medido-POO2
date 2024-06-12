@@ -156,7 +156,8 @@ public class AppUser implements MovementSensor{
 	
 	private void notificarInicioEstacionamiento(EAplicacion estacionamiento) {
 		LocalTime horaInicio = estacionamiento.getHoraInicio().truncatedTo(ChronoUnit.SECONDS);
-	    LocalTime horaMaxima = this.calcularHoraMaxima().truncatedTo(ChronoUnit.SECONDS);
+		LocalTime horaActual = LocalTime.now();
+	    LocalTime horaMaxima = this.calcularHoraMaxima(horaActual).truncatedTo(ChronoUnit.SECONDS);
 	    String mensaje = " - Hora Inicio: " + horaInicio.format(DateTimeFormatter.ofPattern("HH:mm:ss")) +
 	                     " - Hora maxima: " + horaMaxima.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 	    this.notificador.enviarNotificacion(mensaje); 	
@@ -219,19 +220,18 @@ public class AppUser implements MovementSensor{
 	
 	
 	//Calcula la hora maxima permitida a partir del saldo
-	public LocalTime calcularHoraMaxima() {
-		double saldoActual = this.getSaldo();
+	public LocalTime calcularHoraMaxima(LocalTime horaActual) {
+	    double saldoActual = this.getSaldo();
 	    double precioPorHora = sistema.getPrecioPorHora();
 	    LocalTime horaFinSistema = sistema.getHoraFin();
-	    LocalTime horaActual= LocalTime.now();
 
 	    double costoHasta20hs = precioPorHora * (horaFinSistema.getHour() - horaActual.getHour());
 	    
 	    //Calculo en base a si mi saldo me alcanza hasta las 20, sino calcular hasta donde alcance.
 	    LocalTime horaMaxima = (saldoActual >= costoHasta20hs) ? horaFinSistema : horaActual.plusHours((int) (saldoActual / precioPorHora));
 
-	    return horaMaxima;
-	}
+	    return horaMaxima.truncatedTo(ChronoUnit.SECONDS);
+		}
 	
 	//Verifica si el punto actual es el mismo al del inicio del estacionamiento 
 	public boolean esMismoPuntoDeInicio() {
