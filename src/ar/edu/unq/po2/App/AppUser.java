@@ -3,6 +3,7 @@ package ar.edu.unq.po2.App;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import ar.edu.unq.po2.Estacionamiento.EAplicacion;
+import ar.edu.unq.po2.Exceptions.*;
 import ar.edu.unq.po2.Punto.Punto;
 import ar.edu.unq.po2.SEM.SEM;
 
@@ -119,41 +120,79 @@ public class AppUser implements MovementSensor{
 	//De lo contrario, notifica el problema
 	public void iniciarEstacionamiento() {
 		try {
-	        if (this.consultarVigencia()) {
-	            throw new RuntimeException("Ya hay un estacionamiento vigente.");
-	        }
-	        if (this.getSaldo() <= 0) {
-	            throw new RuntimeException("No se puede iniciar estacionamiento, saldo insuficiente.");
-	        }
-
+			
+			this.validarInicioEstacionamiento();
+	        
 	        EAplicacion estacionamiento = new EAplicacion(this.patente, this, this.punto);
 	        sistema.addEstacionamiento(estacionamiento);
-	        this.notificador.enviarNotificacion(
-	                " - Hora Inicio: " + estacionamiento.getHoraInicio() +
-	                " - Hora maxima: " + this.calcularHoraMaxima());
+	        this.notificarInicioEstacionamiento(estacionamiento);
+	        
 	    } catch (RuntimeException e) {
-	        this.notificador.enviarNotificacion(e.getMessage());
+	    	this.notificador.enviarNotificacion(e.getMessage());
 	    }
 	}
 
 	
+	private void notificarInicioEstacionamiento(EAplicacion estacionamiento) {
+        this.notificador.enviarNotificacion(
+                " - Hora Inicio: " + estacionamiento.getHoraInicio() +
+                " - Hora maxima: " + this.calcularHoraMaxima());		
+	}
+
+
+	private void validarInicioEstacionamiento() {
+		 try {
+	            this.verificarEstacionamientoVigente();
+	            this.verificarSaldoPositivo();
+	        } catch (SaldoInsuficienteException | EstacionamientoVigenteException e) {
+	            throw e;
+	        }		
+	}
+
+
+	private void verificarSaldoPositivo() {
+		if (this.getSaldo() <= 0) {
+            throw new SaldoInsuficienteException("No se puede iniciar estacionamiento, saldo insuficiente.");
+        }		
+	}
+
+
+	private void verificarEstacionamientoVigente() {
+		if (this.consultarVigencia()) {
+            throw new EstacionamientoVigenteException("Ya hay un estacionamiento vigente.");
+        }		
+	}
+
+
 	//Si hay un estacionamiento vigente, lo finaliza y notifica
 	//De lo contrario, notifica una excepcion
 	public void finalizarEstacionamiento() {
 	        try {
-	        	EAplicacion estacionamiento = (EAplicacion) this.sistema.estacionamientoConPatente(this.patente);
+	        	EAplicacion estacionamiento = obtenerEstacionamientoVigente();
+	        	
 	            estacionamiento.finalizar(LocalTime.now());
-	            this.notificador.enviarNotificacion(
-	                    " - Hora Inicio: " + estacionamiento.getHoraInicio()
-	                    +" - Hora de Finalizacion: " + estacionamiento.getHoraFin() 
-	                    +" - Duracion total: " + estacionamiento.duracionTotal()
-	                    +" - Costo total: " + estacionamiento.costoTotal()
-	            );
+	            notificarFinEstacionamiento(estacionamiento);	
 	        } catch (Exception e) {
 	        	this.notificador.enviarNotificacion("No existe un estacionamiento vigente para esta patente.");
 	        }
 	}
+	
+	private void notificarFinEstacionamiento(EAplicacion estacionamiento) {
+		 this.notificador.enviarNotificacion(
+                 " - Hora Inicio: " + estacionamiento.getHoraInicio()
+                 +" - Hora de Finalizacion: " + estacionamiento.getHoraFin() 
+                 +" - Duracion total: " + estacionamiento.duracionTotal()
+                 +" - Costo total: " + estacionamiento.costoTotal());		
+	}
 
+
+	private EAplicacion obtenerEstacionamientoVigente() {
+        EAplicacion estacionamiento = (EAplicacion) this.sistema.estacionamientoConPatente(this.patente);
+        if (estacionamiento == null) {
+            throw new RuntimeException("No existe un estacionamiento vigente para esta patente.");
+        }
+        return estacionamiento;
+    }
 	
 	
 	//Calcula la hora maxima permitida a partir del saldo
