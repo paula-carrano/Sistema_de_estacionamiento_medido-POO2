@@ -77,30 +77,30 @@ public class SEM {
 
 	public void addCompra(Compra compra) {
 		compras.add(compra);
-		suscripcionManager.notificar();
+		suscripcionManager.notificar(compra);
 	}
 	
 	public void addZona(Zona zona) {
 		zonas.add(zona);
-		suscripcionManager.notificar();
+		suscripcionManager.notificar(zona);
 	}
 	
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientos.add(estacionamiento);
-		suscripcionManager.notificar();
+		suscripcionManager.notificar(estacionamiento);
 	}
 
 	//Le envia un mensjae a la app con el saldo recarga
 	public void notificarSaldo(AppUser app, double monto) {
 		app.registrarSaldo(monto);
-		suscripcionManager.notificar();
+		suscripcionManager.notificar(monto);
 	}
 	
 	//A las 20:00hs finaliza todos los estacionamientos vigentes
 	public void finalizarEstacionamientos() {
 		this.estacionamientosVigentes().stream()
 						.forEach(e -> e.finalizar(horaFin));
-		suscripcionManager.notificar();
+		suscripcionManager.notificar("Estacionamientos finalizados");
 	}
 	
 	
@@ -113,8 +113,9 @@ public class SEM {
 	
 	//Genera un infraccion y la guarda
 	public void generarInfraccion(String patente, Inspector inspector) {
-		infracciones.add(new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, this.buscarZonaDeInspector(inspector)));
-		suscripcionManager.notificar();
+		Infraccion infraccion= new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, this.buscarZonaDeInspector(inspector));
+		infracciones.add(infraccion);
+		suscripcionManager.notificar(infraccion);
 	}
 	
 	

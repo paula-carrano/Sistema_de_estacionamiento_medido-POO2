@@ -11,7 +11,9 @@ public class SuscriptorTest {
     @Test
     public void testActualizar() {
         Suscriptor suscriptorMock = mock(Suscriptor.class);
-        suscriptorMock.actualizar();
-        verify(suscriptorMock).actualizar();
+        Object evento = new Object();
+
+        suscriptorMock.actualizar(evento);
+        verify(suscriptorMock).actualizar(evento);
     }
 }

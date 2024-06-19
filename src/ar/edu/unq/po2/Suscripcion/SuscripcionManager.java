@@ -3,10 +3,11 @@ package ar.edu.unq.po2.Suscripcion;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.unq.po2.Compra.Compra;
+
 public class SuscripcionManager {
 	
 	private List<Suscriptor> suscriptores;
-	
 	
 	public SuscripcionManager() {
 		this.suscriptores= new ArrayList<Suscriptor>();
@@ -21,11 +22,13 @@ public class SuscripcionManager {
 		suscriptores.remove(suscriptor);
 	}
 	
-	public void notificar() {
-		suscriptores.forEach(suscriptor-> suscriptor.actualizar());
+	public void notificar(Object evento) {
+		suscriptores.forEach(suscriptor-> suscriptor.actualizar(evento));
 	}
 	
 	public List<Suscriptor> getSuscriptores(){
 		return suscriptores;
 	}
-}
+	
+	
+	}

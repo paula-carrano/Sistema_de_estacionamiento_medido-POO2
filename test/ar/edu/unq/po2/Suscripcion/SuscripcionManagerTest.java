@@ -46,9 +46,10 @@ public class SuscripcionManagerTest {
         for (Suscriptor suscriptor : suscriptoresMock) {
             suscripcionManager.agregarSuscriptor(suscriptor);
         }
-        suscripcionManager.notificar();
+        Object evento = new Object();
+        suscripcionManager.notificar(evento);
         for (Suscriptor suscriptor : suscriptoresMock) {
-            verify(suscriptor).actualizar();
+            verify(suscriptor).actualizar(evento);
         }
     }
 }
