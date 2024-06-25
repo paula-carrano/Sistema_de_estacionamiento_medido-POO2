@@ -15,6 +15,7 @@ import ar.edu.unq.po2.Compra.*;
 import ar.edu.unq.po2.Estacionamiento.Estacionamiento;
 import ar.edu.unq.po2.Inspector.Infraccion;
 import ar.edu.unq.po2.Inspector.Inspector;
+import ar.edu.unq.po2.Suscripcion.Suscriptor;
 
 class SEMtest {
 	
@@ -24,16 +25,18 @@ class SEMtest {
 	private Compra compra;
 	private AppUser app;
 	private Inspector inspector;
-	
+	private Suscriptor suscriptor;	
 
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		
 		estacionamiento = mock(Estacionamiento.class);
 		app = mock(AppUser.class);
 		inspector = mock(Inspector.class);
-		sistema = new SEM();	
+		suscriptor = mock(Suscriptor.class);
+		zona = mock(Zona.class);
+		sistema = new SEM();
+		sistema.addSuscriptor(suscriptor);
 	}
 
 	
@@ -56,6 +59,7 @@ class SEMtest {
 		sistema.addCompra(compra);
 		
 		assertEquals(sistema.getCompras().size(), 1);
+		verify(suscriptor, times(1)).actualizar(EventoSEM.COMPRA);
 	}
 	
 	
@@ -67,6 +71,8 @@ class SEMtest {
 		sistema.addEstacionamiento(estacionamiento);
 		
 		assertEquals(sistema.getEstacionamientos().size(), 1);
+		verify(suscriptor, times(1)).actualizar(EventoSEM.INICIO_ESTACIONAMIENTO);
+		
 	}
 	
 	
@@ -78,6 +84,7 @@ class SEMtest {
 		sistema.notificarSaldo(app, 500);
 		
 		verify(app, times(1)).registrarSaldo(500);
+		verify(suscriptor, times(1)).actualizar(EventoSEM.RECARGA_CREDITO);
 	}
 	
 	
@@ -93,6 +100,7 @@ class SEMtest {
 		sistema.finalizarEstacionamientos();
 		
 		assertTrue(sistema.getEstacionamientos().stream().anyMatch(e -> e.estaVigente(LocalTime.of(20, 00))));
+		verify(suscriptor, times(1)).actualizar(EventoSEM.FIN_ESTACIONAMIENTOS);
 	}
 	
 	
@@ -120,6 +128,7 @@ class SEMtest {
 		    Infraccion infraccionGenerada = sistema.getInfracciones().get(0);
 		    assertEquals("ABC123", infraccionGenerada.getPatente());
 		    assertEquals(inspector, infraccionGenerada.getInspector());
+		    verify(suscriptor, times(1)).actualizar(EventoSEM.NUEVA_INFRACCION);
 	}
 	
 	
@@ -164,11 +173,47 @@ class SEMtest {
 	    assertTrue(sistema.buscarZonaPorID(zona.getZonaID()));
 	}
 	
-	  @Test
-	    void testGetHoraFin() {
-	        LocalTime horaEsperada = LocalTime.of(20, 0);
-	        LocalTime horaFinObtenida = sistema.getHoraFin();
+	@Test
+	void testGetHoraFin() {
+	    LocalTime horaEsperada = LocalTime.of(20, 0);
+	    LocalTime horaFinObtenida = sistema.getHoraFin();
 
-	        assertEquals(horaEsperada, horaFinObtenida, "La hora de finalización debería ser 20:00");
-	    }
+	    assertEquals(horaEsperada, horaFinObtenida, "La hora de finalización debería ser 20:00");
+	}
+	
+	@Test
+	void testRemoveSuscriptor() {
+		sistema.addEstacionamiento(estacionamiento);
+        verify(suscriptor, times(1)).actualizar(EventoSEM.INICIO_ESTACIONAMIENTO);
+        
+        sistema.removeSuscriptor(suscriptor);
+        sistema.addCompra(compra);
+        
+        verify(suscriptor,times(0)).actualizar(EventoSEM.COMPRA);
+	}
+	
+	@Test
+    void testBuscarZonaDeInspector_ZonaEncontrada() {
+		
+        when(inspector.getZonaID()).thenReturn("zona1");
+
+        Zona zonaEncontrada = new Zona(inspector, "zona1");
+        sistema.getZonas().add(zonaEncontrada);
+
+        Zona zonaResultado = sistema.buscarZonaDeInspector(inspector);
+
+        assertEquals(zonaEncontrada, zonaResultado);
+    }
+
+    @Test
+    void testBuscarZonaDeInspector_ZonaNoEncontrada() {
+
+        when(inspector.getZonaID()).thenReturn("zona2");
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> sistema.buscarZonaDeInspector(inspector));
+
+        assertTrue(exception.getMessage().contains("No se encontró ninguna zona para el inspector: "));
+    }
+	 
 }

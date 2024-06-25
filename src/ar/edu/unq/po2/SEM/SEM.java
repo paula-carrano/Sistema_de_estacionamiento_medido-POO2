@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import ar.edu.unq.po2.Estacionamiento.*;
 import ar.edu.unq.po2.Inspector.Infraccion;
 import ar.edu.unq.po2.Inspector.Inspector;
-import ar.edu.unq.po2.Suscripcion.SuscripcionManager;
+import ar.edu.unq.po2.Suscripcion.Suscriptor;
 import ar.edu.unq.po2.App.AppUser;
 import ar.edu.unq.po2.Compra.*;
 
@@ -20,8 +20,8 @@ public class SEM {
 	private double precioPorHora;
 	private LocalTime horaInicio;
 	private LocalTime horaFin;
-	private SuscripcionManager suscripcionManager;
 	private List<Infraccion> infracciones;
+	private List<Suscriptor> suscriptores;
 	
 	public SEM() {
 		this.compras = new ArrayList<Compra>();
@@ -30,8 +30,8 @@ public class SEM {
 		this.setHoraInicio(LocalTime.of(07,00));
 		this.setHoraFin(LocalTime.of(20,00));
 		this.setPrecioPorHora(40);
-		this.suscripcionManager= new SuscripcionManager();
 		this.infracciones = new ArrayList<Infraccion>();
+		this.suscriptores= new ArrayList<Suscriptor>();
 	}
 	
 	
@@ -74,33 +74,44 @@ public class SEM {
 		return horaFin;
 	}
 	
+	// Observer management
+	public void addSuscriptor(Suscriptor suscriptor) {
+	    suscriptores.add(suscriptor);
+	}
 
+	public void removeSuscriptor(Suscriptor suscriptor) {
+	    suscriptores.remove(suscriptor);
+	}
+
+	private void notifySuscriptores(EventoSEM evento) {
+		suscriptores.stream().forEach(suscriptor-> suscriptor.actualizar(evento));
+	}
+		
 	public void addCompra(Compra compra) {
 		compras.add(compra);
-		suscripcionManager.notificar(compra);
+		notifySuscriptores(EventoSEM.COMPRA);
 	}
 	
 	public void addZona(Zona zona) {
 		zonas.add(zona);
-		suscripcionManager.notificar(zona);
 	}
 	
 	public void addEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientos.add(estacionamiento);
-		suscripcionManager.notificar(estacionamiento);
+		notifySuscriptores(EventoSEM.INICIO_ESTACIONAMIENTO);
 	}
 
 	//Le envia un mensjae a la app con el saldo recarga
 	public void notificarSaldo(AppUser app, double monto) {
 		app.registrarSaldo(monto);
-		suscripcionManager.notificar(monto);
+		notifySuscriptores(EventoSEM.RECARGA_CREDITO);
 	}
 	
 	//A las 20:00hs finaliza todos los estacionamientos vigentes
 	public void finalizarEstacionamientos() {
 		this.estacionamientosVigentes().stream()
 						.forEach(e -> e.finalizar(horaFin));
-		suscripcionManager.notificar("Estacionamientos finalizados");
+		notifySuscriptores(EventoSEM.FIN_ESTACIONAMIENTOS);
 	}
 	
 	
@@ -115,11 +126,11 @@ public class SEM {
 	public void generarInfraccion(String patente, Inspector inspector) {
 		Infraccion infraccion= new Infraccion(LocalDate.now(),LocalTime.now(), inspector, patente, this.buscarZonaDeInspector(inspector));
 		infracciones.add(infraccion);
-		suscripcionManager.notificar(infraccion);
+		notifySuscriptores(EventoSEM.NUEVA_INFRACCION);
 	}
 	
 	
-	private Zona buscarZonaDeInspector(Inspector inspector) {
+	Zona buscarZonaDeInspector(Inspector inspector) {
 		return zonas.stream()
                 .filter(z -> z != null && z.getZonaID().equals(inspector.getZonaID()))
                 .findFirst()
