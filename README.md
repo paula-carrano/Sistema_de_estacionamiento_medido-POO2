@@ -20,7 +20,7 @@ Para obtener más detalles de la documentación, por favor haga clic <a href="ht
 
 ## UML
 <div align="center">
-<img src="https://drive.google.com/uc?export=download&id=1ns8jQbxbThXoKVKQIPvkSNJ6XE6a9Gfv" />
+<img src="https://drive.google.com/uc?export=download&id=1clvHWg4bOl-ZRXGD4tzxqR-jiHb0iZ79" />
 </div>
 </br>
 Para ver nuestro UML en detalle, por favor haga clic <a href="https://app.diagrams.net/#G1ScaGx-x_Nk3A2QuJy5epSthUuj_TmxPa#%7B%22pageId%22%3A%22Nq1dEduO4GS8px7LW1f1%22%7D" target="_blank">aquí</a>.
